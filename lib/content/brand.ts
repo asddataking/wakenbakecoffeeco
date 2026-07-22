@@ -17,6 +17,12 @@ export const brand = {
     height: 1024,
     alt: "Wake N’ Bake Coffee Co. — Rise. Grind. Unwind.",
   },
+  shareImage: {
+    src: "/brand/social-share.jpg",
+    width: 1024,
+    height: 1024,
+    alt: "Wake N’ Bake Coffee Co. — Rise. Grind. Unwind. Veteran-owned premium small-batch coffee rooted in the Bluewater area.",
+  },
   description:
     "Fresh coffee for slow mornings, big ideas, road trips, campgrounds, and wherever the day takes you. Wake N’ Bake Coffee Co. is powered by DankNDevour.",
   email: "hello@wakenbakecoffeeco.com", // [CONFIRM SUPPORT EMAIL]

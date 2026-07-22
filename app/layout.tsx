@@ -42,10 +42,10 @@ export const metadata: Metadata = {
     description: brand.description,
     images: [
       {
-        url: brand.logo.src,
-        width: brand.logo.width,
-        height: brand.logo.height,
-        alt: brand.logo.alt,
+        url: brand.shareImage.src,
+        width: brand.shareImage.width,
+        height: brand.shareImage.height,
+        alt: brand.shareImage.alt,
       },
     ],
   },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: brand.name,
     description: brand.description,
-    images: [brand.logo.src],
+    images: [brand.shareImage.src],
   },
   icons: {
     icon: [{ url: "/icon.png", type: "image/png" }],

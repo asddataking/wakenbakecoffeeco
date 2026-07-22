@@ -7,7 +7,7 @@ export function HeroSection() {
   const { hero } = siteCopy;
 
   return (
-    <section className="relative isolate min-h-[88vh] overflow-hidden text-cream">
+    <section className="relative isolate min-h-[52vh] overflow-hidden text-cream md:min-h-[48vh]">
       <div className="absolute inset-0 -z-10 bg-ocean-deep" aria-hidden>
         <div className="animate-horizon absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(201,123,75,0.45),transparent_50%),linear-gradient(180deg,#1a3a55_0%,#0b1f33_42%,#071525_72%,#0a2430_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,transparent,rgba(7,21,37,0.85))]" />
@@ -30,11 +30,11 @@ export function HeroSection() {
         </svg>
       </div>
 
-      <div className="mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-4 pt-24 pb-16 md:justify-center md:pb-24">
+      <div className="mx-auto flex min-h-[52vh] max-w-6xl flex-col justify-center px-4 py-14 md:min-h-[48vh] md:py-16">
         <div className="animate-rise max-w-2xl">
           <BrandEmblem
-            className="mb-6 h-28 w-28 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-36 sm:w-36 md:h-44 md:w-44"
-            sizes="(max-width: 640px) 144px, 176px"
+            className="mb-5 h-24 w-24 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-28 sm:w-28 md:h-32 md:w-32"
+            sizes="(max-width: 640px) 112px, 128px"
             priority
           />
           <p className="text-xs tracking-[0.28em] text-sunrise-soft uppercase">

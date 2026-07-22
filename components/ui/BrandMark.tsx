@@ -60,7 +60,12 @@ export function BrandEmblem({
   sizes = "56px",
 }: BrandEmblemProps) {
   return (
-    <span className={cn("relative inline-block overflow-hidden", className)}>
+    <span
+      className={cn(
+        "relative inline-block overflow-visible bg-transparent",
+        className,
+      )}
+    >
       <Image
         src="/brand/logo.webp"
         alt={brand.name}
@@ -68,7 +73,8 @@ export function BrandEmblem({
         height={1024}
         sizes={sizes}
         priority={priority}
-        className="h-full w-full object-contain"
+        className="h-full w-full bg-transparent object-contain"
+        style={{ backgroundColor: "transparent" }}
       />
     </span>
   );

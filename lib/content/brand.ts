@@ -24,7 +24,8 @@ export const brand = {
     alt: "Wake N’ Bake Coffee Co. — Rise. Grind. Unwind. Veteran-owned premium small-batch coffee rooted in the Bluewater area.",
   },
   description:
-    "Fresh coffee for slow mornings, big ideas, road trips, campgrounds, and wherever the day takes you. Wake N’ Bake Coffee Co. is powered by DankNDevour.",
+    "Veteran-owned premium small-batch coffee rooted in Michigan’s Bluewater area. Fresh coffee for slow mornings, road trips, campgrounds, and wherever the day takes you — powered by DankNDevour.",
+  regionLabel: "Bluewater area — Port Huron, St. Clair, Lake Huron",
   email: "hello@wakenbakecoffeeco.com", // [CONFIRM SUPPORT EMAIL]
   phone: "", // [CONFIRM phone]
   address: {
@@ -57,7 +58,9 @@ export const brand = {
         "For laid-back cups, easy sipping, and mornings that do not need any extra drama.",
       cta: "Keep It Mellow",
       tag: "smooth",
-      href: "/shop?roast=light&q=smooth",
+      href: "/shop?roast=light",
+      image: "/placeholders/morning-smooth.svg",
+      imageAlt: "Soft sunrise over calm water with a steaming coffee mug",
     },
     {
       id: "bold-dark",
@@ -66,7 +69,9 @@ export const brand = {
         "Deep, rich coffee for early starts, late nights, and serious mug situations.",
       cta: "Go Bold",
       tag: "bold",
-      href: "/shop?roast=dark&q=bold",
+      href: "/shop?roast=dark",
+      image: "/placeholders/morning-bold.svg",
+      imageAlt: "Deep harbor night with a bold dark roast coffee mug",
     },
     {
       id: "bright-adventurous",
@@ -75,7 +80,9 @@ export const brand = {
         "Lively flavor for curious people and mornings with somewhere to go.",
       cta: "Catch the Wave",
       tag: "bright",
-      href: "/shop?roast=medium&q=bright",
+      href: "/shop?roast=medium",
+      image: "/placeholders/morning-bright.svg",
+      imageAlt: "Bright coastal light and rolling waves with a coffee mug",
     },
     {
       id: "decaf-laid-back",
@@ -83,7 +90,9 @@ export const brand = {
       description: "All the ritual. Less of the zooming through space part.",
       cta: "Stay Mellow",
       tag: "decaf",
-      href: "/shop?type=decaf",
+      href: "/shop?q=decaf",
+      image: "/placeholders/morning-decaf.svg",
+      imageAlt: "Moonlit bay and a calm evening coffee mug",
     },
   ],
   dankNDevour: {

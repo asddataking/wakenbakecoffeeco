@@ -2,14 +2,14 @@ import { brand } from "./brand";
 
 export const seo = {
   home: {
-    title: "Wake N’ Bake Coffee Co. | Brew the Good Life",
+    title: "Wake N’ Bake Coffee Co. | Rise. Grind. Unwind.",
     description:
-      "Shop coffee for slow mornings, big ideas, road trips, campgrounds, and wherever the day takes you. Wake N’ Bake Coffee Co. is powered by DankNDevour.",
+      "Veteran-owned premium small-batch coffee rooted in Michigan’s Bluewater area. Shop fresh roasts for slow mornings, road trips, and wherever the day takes you — powered by DankNDevour.",
   },
   shop: {
     title: "Shop Coffee",
     description:
-      "Explore coffee for every kind of morning, from smooth and mellow to bold and adventurous. Find your roast at Wake N’ Bake Coffee Co.",
+      "Browse premium small-batch coffee from Wake N’ Bake Coffee Co. Smooth, bold, bright, and decaf options for every kind of morning — shipped to your door.",
   },
   subscriptions: {
     title: "Coffee Subscriptions",
@@ -19,27 +19,27 @@ export const seo = {
   brewGuides: {
     title: "Coffee Brew Guides",
     description:
-      "Learn how to brew better coffee with straightforward guides for drip coffee, French press, grind size, coffee ratios, camping, and more.",
+      "Straightforward brew guides for drip, pour-over, French press, grind size, ratios, camping coffee, and more from Wake N’ Bake Coffee Co.",
   },
   about: {
     title: "Our Story",
     description:
-      "Meet the laid-back coffee brand powered by DankNDevour and built around good coffee, community, adventure, and taking the scenic route.",
+      "Wake N’ Bake Coffee Co. is a veteran-owned, Bluewater-rooted coffee brand powered by DankNDevour — built around good coffee, community, and taking the scenic route.",
   },
   faq: {
     title: "FAQ",
     description:
-      "Answers about coffee, checkout, shipping, subscriptions, and the Wake N’ Bake Coffee Co. lifestyle — including whether the coffee contains cannabis or THC.",
+      "Answers about our coffee, checkout, shipping, subscriptions, and lifestyle — including whether Wake N’ Bake coffee contains cannabis or THC.",
   },
   contact: {
     title: "Contact",
     description:
-      "Questions, ideas, wholesale inquiries, or something wonderfully random? Send a message to Wake N’ Bake Coffee Co.",
+      "Questions, wholesale inquiries, or something wonderfully random? Reach Wake N’ Bake Coffee Co. — veteran-owned coffee from Michigan’s Bluewater area.",
   },
   wholesale: {
-    title: "Wholesale",
+    title: "Wholesale Coffee",
     description:
-      "Wholesale coffee inquiries for cafes, shops, markets, and hospitality partners. Wake N’ Bake Coffee Co. — powered by DankNDevour.",
+      "Wholesale inquiries for cafes, shops, markets, and hospitality partners. Premium small-batch coffee from Wake N’ Bake Coffee Co.",
   },
   journal: {
     title: "Coffee Journal",
@@ -48,51 +48,45 @@ export const seo = {
   },
   cart: {
     title: "Your Cart",
-    description: "Review your Wake N’ Bake Coffee Co. cart before heading to secure Shopify checkout.",
+    description:
+      "Review your Wake N’ Bake Coffee Co. cart before heading to secure Shopify checkout.",
+  },
+  shippingReturns: {
+    title: "Shipping & Returns",
+    description:
+      "Shipping, delivery expectations, and return information for Wake N’ Bake Coffee Co. orders.",
+  },
+  privacy: {
+    title: "Privacy Policy",
+    description:
+      "How Wake N’ Bake Coffee Co. collects, uses, and protects personal information on our coffee storefront.",
+  },
+  terms: {
+    title: "Terms of Service",
+    description:
+      "Terms of use for the Wake N’ Bake Coffee Co. website and online coffee shop.",
   },
   productTitleTemplate: (productTitle: string) =>
-    `${productTitle} | ${brand.shortName}`,
+    `${productTitle} | ${brand.name}`,
   productDescriptionFallback: (productTitle: string, excerpt: string) =>
     excerpt ||
-    `Shop ${productTitle} from Wake N’ Bake Coffee Co. Fresh coffee for mornings, road trips, and wherever the day takes you.`,
+    `Shop ${productTitle} from Wake N’ Bake Coffee Co. Veteran-owned premium small-batch coffee, shipped to your door.`,
   collectionTitleTemplate: (collectionTitle: string) =>
-    `${collectionTitle} | ${brand.shortName}`,
-  keywords: {
-    commercial: [
-      "coffee delivered to your home",
-      "fresh coffee online",
-      "coffee subscription",
-      "small-batch coffee",
-      "coffee for camping",
-      "coffee for road trips",
-      "coffee gifts",
-      "dark roast coffee",
-      "medium roast coffee",
-      "light roast coffee",
-      "flavored coffee",
-      "whole bean coffee",
-      "ground coffee",
-    ],
-    lifestyle: [
-      "beach-inspired coffee brand",
-      "nautical coffee brand",
-      "coastal lifestyle coffee",
-      "coffee for creators",
-      "coffee for gamers",
-      "coffee for outdoor adventures",
-      "morning coffee ritual",
-    ],
-    educational: [
-      "how to brew drip coffee",
-      "French press coffee guide",
-      "coffee-to-water ratio",
-      "best coffee grind size",
-      "how to store coffee",
-      "whole bean versus ground coffee",
-      "light roast versus dark roast",
-      "how much coffee per cup",
-      "coffee for camping",
-      "how to make coffee while traveling",
-    ],
-  },
+    `${collectionTitle} | ${brand.name}`,
+  keywords: [
+    "Wake N’ Bake Coffee Co",
+    "veteran owned coffee",
+    "small batch coffee",
+    "Bluewater coffee",
+    "Michigan coffee",
+    "coffee subscription",
+    "fresh coffee online",
+    "whole bean coffee",
+    "ground coffee",
+    "dark roast coffee",
+    "medium roast coffee",
+    "light roast coffee",
+    "camping coffee",
+    "DankNDevour",
+  ],
 } as const;

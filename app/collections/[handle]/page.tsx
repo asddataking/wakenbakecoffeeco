@@ -8,6 +8,8 @@ import { getCollectionByHandle, getCollections } from "@/lib/shopify/client";
 import type { ShopFilters as Filters } from "@/lib/shopify/types";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { brandedDocumentTitle, createPageMetadata } from "@/lib/seo/metadata";
+import { brand } from "@/lib/content/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -23,11 +25,26 @@ export async function generateMetadata({
   const result = await getCollectionByHandle(handle).catch(() => null);
   if (!result) return { title: "Collection" };
   const { collection } = result;
-  return {
-    title: collection.seo.title || collection.title,
-    description: collection.seo.description || collection.description,
-    alternates: { canonical: absoluteUrl(`/collections/${handle}`) },
-  };
+  const title = collection.seo.title || brandedDocumentTitle(collection.title);
+  const description =
+    collection.seo.description ||
+    collection.description ||
+    `Shop the ${collection.title} collection at ${brand.name}.`;
+  const image = collection.image;
+  return createPageMetadata({
+    title,
+    description,
+    path: `/collections/${handle}`,
+    absoluteTitle: true,
+    image: image
+      ? {
+          url: image.url,
+          width: image.width ?? undefined,
+          height: image.height ?? undefined,
+          alt: image.altText || collection.title,
+        }
+      : undefined,
+  });
 }
 
 export async function generateStaticParams() {

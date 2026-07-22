@@ -4,13 +4,14 @@ import { brewGuides } from "@/lib/content/brew-guides";
 import { articles } from "@/lib/content/articles";
 import { siteCopy } from "@/lib/content/site-copy";
 import { seo } from "@/lib/content/seo";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.brewGuides.title,
   description: seo.brewGuides.description,
-  alternates: { canonical: absoluteUrl("/brew-guides") },
-};
+  path: "/brew-guides",
+});
+
 
 export default function BrewGuidesPage() {
   const { brewGuidesIndex } = siteCopy;

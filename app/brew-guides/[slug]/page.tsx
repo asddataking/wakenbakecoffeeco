@@ -5,6 +5,7 @@ import { brewGuides, getBrewGuide } from "@/lib/content/brew-guides";
 import { getArticle } from "@/lib/content/articles";
 import { brand } from "@/lib/content/brand";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 type Params = Promise<{ slug: string }>;
@@ -21,11 +22,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const guide = getBrewGuide(slug);
   if (!guide) return { title: "Brew Guide" };
-  return {
+  return createPageMetadata({
     title: guide.seoTitle,
     description: guide.metaDescription,
-    alternates: { canonical: absoluteUrl(`/brew-guides/${slug}`) },
-  };
+    path: `/brew-guides/${slug}`,
+    absoluteTitle: true,
+    type: "article",
+  });
 }
 
 export default async function BrewGuidePage({ params }: { params: Params }) {

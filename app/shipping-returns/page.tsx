@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { seo } from "@/lib/content/seo";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Shipping & Returns",
-  alternates: { canonical: absoluteUrl("/shipping-returns") },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: seo.shippingReturns.title,
+  description: seo.shippingReturns.description,
+  path: "/shipping-returns",
+});
 
 export default function ShippingReturnsPage() {
   return (

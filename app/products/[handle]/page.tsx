@@ -19,6 +19,7 @@ import { productFaq } from "@/lib/content/faq";
 import { siteCopy } from "@/lib/content/site-copy";
 import { seo } from "@/lib/content/seo";
 import { brand } from "@/lib/content/brand";
+import { brandedDocumentTitle, createPageMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -32,20 +33,25 @@ export async function generateMetadata({
   const { handle } = await params;
   const product = await getProductByHandle(handle);
   if (!product) return { title: "Product" };
-  const image = product.featuredImage?.url;
+  const image = product.featuredImage;
   const description =
     product.seo.description ||
     seo.productDescriptionFallback(product.title, product.description.slice(0, 160));
-  return {
-    title: product.seo.title || seo.productTitleTemplate(product.title),
+  const title = product.seo.title || brandedDocumentTitle(product.title);
+  return createPageMetadata({
+    title,
     description,
-    alternates: { canonical: absoluteUrl(`/products/${handle}`) },
-    openGraph: {
-      title: product.title,
-      description,
-      images: image ? [{ url: image }] : undefined,
-    },
-  };
+    path: `/products/${handle}`,
+    absoluteTitle: true,
+    image: image
+      ? {
+          url: image.url,
+          width: image.width ?? undefined,
+          height: image.height ?? undefined,
+          alt: image.altText || product.title,
+        }
+      : undefined,
+  });
 }
 
 export async function generateStaticParams() {

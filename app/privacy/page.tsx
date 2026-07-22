@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { seo } from "@/lib/content/seo";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  alternates: { canonical: absoluteUrl("/privacy") },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: seo.privacy.title,
+  description: seo.privacy.description,
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

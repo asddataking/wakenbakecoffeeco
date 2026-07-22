@@ -1,4 +1,5 @@
 import type { Cart, Collection, Money, Product } from "./types";
+import { filterCatalogProducts } from "./product-filters";
 
 const usd = (amount: string): Money => ({ amount, currencyCode: "USD" });
 
@@ -322,35 +323,11 @@ export function filterDemoProducts(
     subscription?: boolean;
   },
 ): Product[] {
-  return products.filter((product) => {
-    if (opts.q) {
-      const q = opts.q.toLowerCase();
-      const haystack = [
-        product.title,
-        product.description,
-        product.tags.join(" "),
-        product.metafields.tastingNotes ?? "",
-        product.metafields.roastLevel ?? "",
-      ]
-        .join(" ")
-        .toLowerCase();
-      if (!haystack.includes(q)) return false;
-    }
-    if (opts.roast) {
-      const roast = (product.metafields.roastLevel ?? "").toLowerCase();
-      if (!roast.includes(opts.roast.toLowerCase())) return false;
-    }
-    if (opts.type === "decaf") {
-      const isDecaf =
-        product.tags.some((t) => t.toLowerCase().includes("decaf")) ||
-        (product.metafields.beanType ?? "").toLowerCase().includes("decaf");
-      if (!isDecaf) return false;
-    }
-    if (opts.availability === "in-stock" && !product.availableForSale) return false;
-    if (opts.subscription && product.sellingPlanGroups.length === 0) return false;
-    const price = Number.parseFloat(product.priceRange.minVariantPrice.amount);
-    if (opts.minPrice != null && price < opts.minPrice) return false;
-    if (opts.maxPrice != null && price > opts.maxPrice) return false;
-    return true;
+  return filterCatalogProducts(products, {
+    ...opts,
+    availability:
+      opts.availability === "in-stock" || opts.availability === "all"
+        ? opts.availability
+        : undefined,
   });
 }

@@ -3,14 +3,16 @@ import Link from "next/link";
 import { aboutContent } from "@/lib/content/about";
 import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { brand } from "@/lib/content/brand";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.about.title,
   description: seo.about.description,
-  alternates: { canonical: absoluteUrl("/about") },
-};
+  path: "/about",
+});
+
 
 export default function AboutPage() {
   return (

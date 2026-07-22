@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { WholesaleForm } from "@/components/forms/WholesaleForm";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { absoluteUrl } from "@/lib/utils/cn";
 import { seo } from "@/lib/content/seo";
 import { siteCopy } from "@/lib/content/site-copy";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.wholesale.title,
   description: seo.wholesale.description,
-  alternates: { canonical: absoluteUrl("/wholesale") },
-};
+  path: "/wholesale",
+});
+
 
 export default function WholesalePage() {
   const { wholesale } = siteCopy;

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { seo } from "@/lib/content/seo";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  alternates: { canonical: absoluteUrl("/terms") },
-};
+export const metadata: Metadata = createPageMetadata({
+  title: seo.terms.title,
+  description: seo.terms.description,
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

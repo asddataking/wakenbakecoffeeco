@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" fill="none">
+  <defs>
+    <linearGradient id="day" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9BB6A4"/>
+      <stop offset="40%" stop-color="#4A6D8C"/>
+      <stop offset="100%" stop-color="#0B1F33"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="640" fill="url(#day)"/>
+  <circle cx="780" cy="120" r="80" fill="#E0A07A" opacity="0.75"/>
+  <path d="M0 360C120 320 220 380 340 340C460 300 560 370 700 330C820 300 900 340 960 320V640H0V360Z" fill="#7F9E8A" opacity="0.45"/>
+  <path d="M0 420C150 380 270 460 420 410C570 360 700 450 960 390V640H0V420Z" fill="#0B1F33" opacity="0.65"/>
+  <path d="M80 470C160 430 230 500 300 460C370 420 430 490 500 455" fill="none" stroke="#F3EFE6" stroke-width="5" opacity="0.35"/>
+  <path d="M520 490C600 450 680 520 760 475C840 430 900 500 950 470" fill="none" stroke="#F3EFE6" stroke-width="5" opacity="0.3"/>
+  <ellipse cx="430" cy="510" rx="95" ry="18" fill="#071525" opacity="0.35"/>
+  <path d="M370 510V390H490V510" fill="#1A1714"/>
+  <path d="M382 390H478V325H382V390Z" fill="#2A221C"/>
+  <path d="M395 325C395 290 470 290 470 325" fill="none" stroke="#F3EFE6" stroke-width="8" stroke-linecap="round" opacity="0.45"/>
+  <path d="M680 180L695 210L728 215L703 238L710 270L680 252L650 270L657 238L632 215L665 210L680 180Z" fill="#F3EFE6" opacity="0.35"/>
+</svg>

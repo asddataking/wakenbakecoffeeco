@@ -10,6 +10,7 @@ import { AnalyticsScripts } from "@/components/layout/AnalyticsScripts";
 import { ConsentBanner } from "@/components/layout/ConsentBanner";
 import { UtmCapture } from "@/components/layout/UtmCapture";
 import { brand } from "@/lib/content/brand";
+import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { isDemoMode } from "@/lib/validation/env";
 import "./globals.css";
@@ -29,16 +30,21 @@ const sans = Source_Sans_3({
 export const metadata: Metadata = {
   metadataBase: new URL(absoluteUrl("/")),
   title: {
-    default: `Wake N’ Bake Coffee Co. | Brew the Good Life`,
+    default: seo.home.title,
     template: `%s | ${brand.name}`,
   },
   description: brand.description,
+  applicationName: brand.name,
+  keywords: [...seo.keywords],
+  authors: [{ name: brand.name, url: absoluteUrl("/") }],
+  creator: brand.name,
+  publisher: brand.name,
+  category: "shopping",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: absoluteUrl("/"),
     siteName: brand.name,
-    title: `Wake N’ Bake Coffee Co. | Brew the Good Life`,
+    title: seo.home.title,
     description: brand.description,
     images: [
       {
@@ -51,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: brand.name,
+    title: seo.home.title,
     description: brand.description,
     images: [brand.shareImage.src],
   },
@@ -62,9 +68,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: absoluteUrl("/"),
   },
 };
 

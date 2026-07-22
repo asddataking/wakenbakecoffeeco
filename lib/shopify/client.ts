@@ -8,8 +8,8 @@ import {
   createDemoCart,
   DEMO_COLLECTIONS,
   DEMO_PRODUCTS,
-  filterDemoProducts,
 } from "./demo";
+import { filterCatalogProducts } from "./product-filters";
 import {
   CART_BUYER_IDENTITY_UPDATE,
   CART_CREATE,
@@ -169,9 +169,9 @@ function buildProductQuery(filters: ShopFilters): string {
   if (filters.availability === "in-stock") {
     parts.push("available_for_sale:true");
   }
+  // Free-text search only. Roast/type are applied locally — Dripshipper catalogs
+  // rarely publish `tag:light` / `tag:decaf` the way a curated Shopify store would.
   if (filters.q) parts.push(filters.q);
-  if (filters.roast) parts.push(`tag:${filters.roast}`);
-  if (filters.type) parts.push(`tag:${filters.type}`);
   if (filters.minPrice != null) parts.push(`variants.price:>=${filters.minPrice}`);
   if (filters.maxPrice != null) parts.push(`variants.price:<=${filters.maxPrice}`);
   if (filters.subscription) parts.push("selling_plan_group:*");
@@ -233,7 +233,7 @@ export async function getMenu(handle: string) {
 export async function getProducts(filters: ShopFilters = {}): Promise<ProductConnection> {
   if (isDemoMode()) {
     const filtered = sortDemoProducts(
-      filterDemoProducts(DEMO_PRODUCTS, filters),
+      filterCatalogProducts(DEMO_PRODUCTS, filters),
       filters.sort,
     );
     return {
@@ -248,6 +248,7 @@ export async function getProducts(filters: ShopFilters = {}): Promise<ProductCon
   }
 
   const { sortKey, reverse } = sortKeyFromFilters(filters.sort);
+  const needsLocalFilter = Boolean(filters.roast || filters.type);
   const data = await shopifyFetch<{
     products: {
       nodes: unknown[];
@@ -256,7 +257,8 @@ export async function getProducts(filters: ShopFilters = {}): Promise<ProductCon
   }>(
     GET_PRODUCTS,
     {
-      first: PAGE_SIZE,
+      // Pull a wider page when we will filter roast/type locally.
+      first: needsLocalFilter ? Math.max(PAGE_SIZE, 100) : PAGE_SIZE,
       after: filters.cursor ?? null,
       query: buildProductQuery(filters),
       sortKey,
@@ -269,11 +271,66 @@ export async function getProducts(filters: ShopFilters = {}): Promise<ProductCon
     normalizeProduct(node as Parameters<typeof normalizeProduct>[0]),
   );
 
-  if (filters.availability === "in-stock") {
-    products = products.filter((p) => p.availableForSale);
+  const preLocal = products;
+  products = filterCatalogProducts(products, filters);
+
+  // If roast/type found nothing in titles/metafields, try a soft Shopify text search.
+  if (products.length === 0 && needsLocalFilter) {
+    const softTerms = [filters.q, filters.roast, filters.type]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+    if (softTerms) {
+      const soft = await shopifyFetch<{
+        products: {
+          nodes: unknown[];
+          pageInfo: ProductConnection["pageInfo"];
+        };
+      }>(
+        GET_PRODUCTS,
+        {
+          first: PAGE_SIZE,
+          after: null,
+          query: softTerms,
+          sortKey,
+          reverse,
+        },
+        "no-store",
+      );
+      products = soft.products.nodes.map((node) =>
+        normalizeProduct(node as Parameters<typeof normalizeProduct>[0]),
+      );
+      products = filterCatalogProducts(products, {
+        availability: filters.availability,
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice,
+        subscription: filters.subscription,
+      });
+      if (products.length > 0) {
+        return { products, pageInfo: soft.products.pageInfo };
+      }
+    }
+
+    // Last resort: don't dead-end the shop when Dripshipper bags lack roast tags/copy.
+    products = filterCatalogProducts(preLocal, {
+      availability: filters.availability,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      subscription: filters.subscription,
+    });
   }
 
-  return { products, pageInfo: data.products.pageInfo };
+  return {
+    products,
+    pageInfo: needsLocalFilter
+      ? {
+          ...data.products.pageInfo,
+          // Local filtering breaks cursor pagination accuracy — hide "load more".
+          hasNextPage: false,
+          endCursor: null,
+        }
+      : data.products.pageInfo,
+  };
 }
 
 export async function getProductByHandle(handle: string): Promise<Product | null> {
@@ -329,7 +386,7 @@ export async function getCollectionByHandle(
         products: DEMO_PRODUCTS,
       } satisfies Collection);
     const products = sortDemoProducts(
-      filterDemoProducts(collection.products, filters),
+      filterCatalogProducts(collection.products, filters),
       filters.sort,
     );
     return {
@@ -373,9 +430,10 @@ export async function getCollectionByHandle(
   );
 
   if (!data.collection) return null;
-  const products = data.collection.products.nodes.map((node) =>
+  let products = data.collection.products.nodes.map((node) =>
     normalizeProduct(node as Parameters<typeof normalizeProduct>[0]),
   );
+  products = filterCatalogProducts(products, filters);
   return {
     collection: normalizeCollection(data.collection, products),
     pageInfo: data.collection.products.pageInfo,

@@ -3,13 +3,14 @@ import Link from "next/link";
 import { articles, articleCategories } from "@/lib/content/articles";
 import { siteCopy } from "@/lib/content/site-copy";
 import { seo } from "@/lib/content/seo";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.journal.title,
   description: seo.journal.description,
-  alternates: { canonical: absoluteUrl("/journal") },
-};
+  path: "/journal",
+});
+
 
 export default function JournalPage() {
   const { journal } = siteCopy;

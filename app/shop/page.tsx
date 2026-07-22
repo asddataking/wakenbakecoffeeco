@@ -4,19 +4,19 @@ import { ProductCard } from "@/components/commerce/ProductCard";
 import { ShopFilters } from "@/components/commerce/ShopFilters";
 import { getProducts, isDemoMode } from "@/lib/shopify/client";
 import type { ShopFilters as Filters } from "@/lib/shopify/types";
-import { absoluteUrl } from "@/lib/utils/cn";
 import { ViewItemListTracker } from "@/components/commerce/ViewItemListTracker";
 import Link from "next/link";
 import { siteCopy } from "@/lib/content/site-copy";
 import { seo } from "@/lib/content/seo";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.shop.title,
   description: seo.shop.description,
-  alternates: { canonical: absoluteUrl("/shop") },
-};
+  path: "/shop",
+});
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -37,6 +37,7 @@ function parseFilters(sp: Record<string, string | string[] | undefined>): Filter
     cursor: one("cursor"),
   };
 }
+
 
 export default async function ShopPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;

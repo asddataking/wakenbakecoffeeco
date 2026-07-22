@@ -8,6 +8,7 @@ import {
 } from "@/lib/content/articles";
 import { brand } from "@/lib/content/brand";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 type Params = Promise<{ slug: string }>;
@@ -24,11 +25,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return { title: "Journal" };
-  return {
+  return createPageMetadata({
     title: article.seoTitle,
     description: article.metaDescription,
-    alternates: { canonical: absoluteUrl(`/journal/${slug}`) },
-  };
+    path: `/journal/${slug}`,
+    absoluteTitle: true,
+    type: "article",
+  });
 }
 
 export default async function JournalArticlePage({ params }: { params: Params }) {

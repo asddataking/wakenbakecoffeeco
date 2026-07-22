@@ -11,15 +11,17 @@ import { getCollectionByHandle, getProducts } from "@/lib/shopify/client";
 import { brand } from "@/lib/content/brand";
 import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: { absolute: seo.home.title },
+export const metadata: Metadata = createPageMetadata({
+  title: seo.home.title,
   description: seo.home.description,
-  alternates: { canonical: absoluteUrl("/") },
-};
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default async function HomePage() {
   const featured = await getCollectionByHandle("featured-coffee").catch(() => null);
@@ -43,15 +45,48 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: brand.name,
-          url: absoluteUrl("/"),
-          description: seo.home.description,
-          email: brand.email,
-          slogan: brand.tagline,
-        }}
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: brand.name,
+            alternateName: brand.shortName,
+            url: absoluteUrl("/"),
+            logo: absoluteUrl(brand.logo.src),
+            image: absoluteUrl(brand.shareImage.src),
+            description: seo.home.description,
+            email: brand.email,
+            slogan: brand.tagline,
+            areaServed: {
+              "@type": "Place",
+              name: brand.regionLabel,
+            },
+            brand: {
+              "@type": "Brand",
+              name: brand.name,
+              slogan: brand.tagline,
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: brand.name,
+            url: absoluteUrl("/"),
+            description: seo.home.description,
+            publisher: {
+              "@type": "Organization",
+              name: brand.name,
+            },
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: `${absoluteUrl("/shop")}?q={search_term_string}`,
+              },
+              "query-input": "required name=search_term_string",
+            },
+          },
+        ]}
       />
       <HeroSection />
       <FeaturedCoffee products={products} />

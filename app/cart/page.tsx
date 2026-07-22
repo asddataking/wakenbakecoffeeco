@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { CartPageClient } from "@/components/commerce/CartPageClient";
-import { absoluteUrl } from "@/lib/utils/cn";
 import { seo } from "@/lib/content/seo";
 import { siteCopy } from "@/lib/content/site-copy";
+import { createPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.cart.title,
   description: seo.cart.description,
+  path: "/cart",
   robots: { index: false, follow: false },
-  alternates: { canonical: absoluteUrl("/cart") },
-};
+});
+
 
 export default async function CartPage({
   searchParams,

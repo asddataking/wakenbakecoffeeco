@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" fill="none">
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#1A2A3D"/>
+      <stop offset="50%" stop-color="#0B1F33"/>
+      <stop offset="100%" stop-color="#071525"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="640" fill="url(#dusk)"/>
+  <circle cx="700" cy="130" r="48" fill="#D4C4A8" opacity="0.55"/>
+  <circle cx="120" cy="80" r="2" fill="#F3EFE6" opacity="0.6"/>
+  <circle cx="200" cy="130" r="1.5" fill="#F3EFE6" opacity="0.45"/>
+  <circle cx="420" cy="60" r="2" fill="#F3EFE6" opacity="0.5"/>
+  <circle cx="860" cy="90" r="1.5" fill="#F3EFE6" opacity="0.4"/>
+  <path d="M0 400C180 350 300 450 460 400C620 350 760 440 960 390V640H0V400Z" fill="#102638" opacity="0.85"/>
+  <path d="M0 460C200 420 340 510 500 460C660 410 800 500 960 450V640H0V460Z" fill="#071525"/>
+  <path d="M640 420C700 360 820 360 880 420C820 400 700 400 640 420Z" fill="#9BB6A4" opacity="0.2"/>
+  <ellipse cx="340" cy="500" rx="90" ry="16" fill="#000" opacity="0.3"/>
+  <path d="M285 500V390H395V500" fill="#1A1714"/>
+  <path d="M297 390H383V330H297V390Z" fill="#243028"/>
+  <path d="M308 330C308 300 375 300 375 330" fill="none" stroke="#9BB6A4" stroke-width="7" stroke-linecap="round" opacity="0.45"/>
+  <path d="M325 320C325 295 360 295 360 320" fill="none" stroke="#9BB6A4" stroke-width="5" stroke-linecap="round" opacity="0.3"/>
+  <path d="M760 520C800 490 860 490 900 520" fill="none" stroke="#4A6D8C" stroke-width="3" opacity="0.4"/>
+</svg>

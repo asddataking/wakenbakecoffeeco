@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteFaq } from "@/lib/content/faq";
 import { seo } from "@/lib/content/seo";
-import { absoluteUrl } from "@/lib/utils/cn";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/ui/JsonLd";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: seo.faq.title,
   description: seo.faq.description,
-  alternates: { canonical: absoluteUrl("/faq") },
-};
+  path: "/faq",
+});
+
 
 export default function FaqPage() {
   return (

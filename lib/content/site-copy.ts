@@ -159,7 +159,7 @@ export const siteCopy = {
   },
   footer: {
     tagline: brand.headline,
-    trust: "Checkout secured by Shopify. Fulfillment via Dripshipper partners.",
+    trust: "DAV supporter. Veteran owned. Checkout secured by Shopify.",
   },
   brewGuidesIndex: {
     heading: "Brew guides",

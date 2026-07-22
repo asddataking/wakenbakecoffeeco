@@ -40,11 +40,24 @@ export const metadata: Metadata = {
     siteName: brand.name,
     title: brand.name,
     description: brand.description,
+    images: [
+      {
+        url: brand.logo.src,
+        width: brand.logo.width,
+        height: brand.logo.height,
+        alt: brand.logo.alt,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: brand.name,
     description: brand.description,
+    images: [brand.logo.src],
+  },
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
   },
   robots: {
     index: true,

@@ -32,17 +32,12 @@ export function HeroSection() {
 
       <div className="mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-4 pt-24 pb-16 md:justify-center md:pb-24">
         <div className="animate-rise max-w-2xl">
-          <div className="mb-6 flex items-center gap-3">
-            <BrandEmblem className="h-14 w-14 text-cream" />
-            <div>
-              <p className="font-display text-sm tracking-[0.28em] text-cream/80">
-                {brand.lockup.line1}
-              </p>
-              <p className="text-[11px] tracking-[0.32em] text-cream/60">
-                {brand.lockup.line2}
-              </p>
-            </div>
-          </div>
+          <BrandEmblem
+            className="mb-6 h-28 w-28 drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-36 sm:w-36 md:h-44 md:w-44"
+            sizes="(max-width: 640px) 144px, 176px"
+            priority
+          />
+          <p className="sr-only">{brand.name}</p>
           <h1 className="font-display text-5xl leading-[1.05] text-balance sm:text-6xl md:text-7xl">
             {brand.tagline}
           </h1>

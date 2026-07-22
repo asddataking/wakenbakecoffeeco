@@ -7,8 +7,13 @@ export const brand = {
     line2: "COFFEE CO.",
     line3: "BREW THE GOOD LIFE",
   },
-  /** Temporary wordmark until final brand assets are delivered. */
-  logoIsTemporary: true,
+  logoIsTemporary: false,
+  logo: {
+    src: "/brand/logo.webp",
+    width: 1024,
+    height: 1024,
+    alt: "Wake N’ Bake Coffee Co. — Rise. Grind. & Unwind.",
+  },
   description:
     "Beach-inspired specialty coffee for mornings by the water, campfire evenings, and everything in between. Roasted for people who wake up ready to brew the good life.",
   email: "hello@wakenbakecoffeeco.com", // [CONFIRM email]

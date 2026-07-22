@@ -119,6 +119,19 @@ async function shopifyFetch<T>(
     if (/throttl|rate/i.test(message)) {
       throw new ShopifyError("RATE_LIMITED", message, 429);
     }
+
+    // Shopify often returns partial data with field-level ACCESS_DENIED errors.
+    // Prefer usable product/cart payloads over failing the whole page.
+    const onlyFieldAccessDenied = json.errors.every(
+      (error) => error.extensions?.code === "ACCESS_DENIED",
+    );
+    if (json.data && onlyFieldAccessDenied) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("[shopify] Ignoring field access errors:", message);
+      }
+      return json.data;
+    }
+
     throw new ShopifyError("API_ERROR", message);
   }
 
@@ -150,7 +163,12 @@ function sortKeyFromFilters(sort?: ShopFilters["sort"]): {
 }
 
 function buildProductQuery(filters: ShopFilters): string {
-  const parts: string[] = ["available_for_sale:true"];
+  const parts: string[] = [];
+  // Only filter to in-stock when the shop UI asks for it.
+  // Default "all" must include published sold-out products so Dripshipper bags still appear.
+  if (filters.availability === "in-stock") {
+    parts.push("available_for_sale:true");
+  }
   if (filters.q) parts.push(filters.q);
   if (filters.roast) parts.push(`tag:${filters.roast}`);
   if (filters.type) parts.push(`tag:${filters.type}`);

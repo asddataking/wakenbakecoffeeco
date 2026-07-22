@@ -57,7 +57,6 @@ export const VARIANT_FRAGMENT = `#graphql
     title
     availableForSale
     currentlyNotInStock
-    quantityAvailable
     sku
     selectedOptions {
       name

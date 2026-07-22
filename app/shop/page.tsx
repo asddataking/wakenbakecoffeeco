@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ProductCard } from "@/components/commerce/ProductCard";
 import { ShopFilters } from "@/components/commerce/ShopFilters";
-import { getProducts } from "@/lib/shopify/client";
+import { getProducts, isDemoMode } from "@/lib/shopify/client";
 import type { ShopFilters as Filters } from "@/lib/shopify/types";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { ViewItemListTracker } from "@/components/commerce/ViewItemListTracker";
@@ -42,6 +42,15 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
   const sp = await searchParams;
   const filters = parseFilters(sp);
   const { shop } = siteCopy;
+  const hasActiveFilters = Boolean(
+    filters.q ||
+      filters.roast ||
+      filters.type ||
+      filters.subscription ||
+      filters.availability === "in-stock" ||
+      filters.minPrice != null ||
+      filters.maxPrice != null,
+  );
   const { products, pageInfo } = await getProducts(filters).catch(() => ({
     products: [],
     pageInfo: {
@@ -54,6 +63,7 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
 
   const heading = filters.subscription ? "Subscriptions" : shop.heading;
   const body = filters.subscription ? seo.subscriptions.description : shop.body;
+  const catalogConnectedButEmpty = !isDemoMode() && products.length === 0 && !hasActiveFilters;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
@@ -71,7 +81,22 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
       {products.length === 0 ? (
         <div className="mt-12 space-y-3">
           <h2 className="font-display text-2xl text-ocean">{shop.emptyHeading}</h2>
-          <p className="text-driftwood">{shop.emptyBody}</p>
+          {catalogConnectedButEmpty ? (
+            <div className="max-w-2xl space-y-2 text-driftwood">
+              <p>
+                Shopify is connected, but the Storefront API is not returning any products
+                yet.
+              </p>
+              <p>
+                In Shopify Admin, open each product and publish it to your{" "}
+                <strong className="font-semibold text-ocean">Headless / custom app</strong>{" "}
+                sales channel (not only Online Store). Dripshipper imports often miss this
+                step. Then refresh this page.
+              </p>
+            </div>
+          ) : (
+            <p className="text-driftwood">{shop.emptyBody}</p>
+          )}
           <div className="flex flex-wrap gap-3">
             <Link
               href="/shop"
@@ -79,9 +104,14 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
             >
               {shop.emptyCta}
             </Link>
-            <Link href="/shop" className="rounded-full border border-ocean/20 px-4 py-2 text-sm text-ocean no-underline">
-              {shop.clearFilters}
-            </Link>
+            {hasActiveFilters ? (
+              <Link
+                href="/shop"
+                className="rounded-full border border-ocean/20 px-4 py-2 text-sm text-ocean no-underline"
+              >
+                {shop.clearFilters}
+              </Link>
+            ) : null}
           </div>
         </div>
       ) : (

@@ -8,6 +8,8 @@ import { absoluteUrl } from "@/lib/utils/cn";
 import { ViewItemListTracker } from "@/components/commerce/ViewItemListTracker";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Shop Coffee",
   description: "Browse Wake N Bake Coffee Co. bags — roasted for mornings by the water.",
@@ -37,7 +39,15 @@ function parseFilters(sp: Record<string, string | string[] | undefined>): Filter
 export default async function ShopPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;
   const filters = parseFilters(sp);
-  const { products, pageInfo } = await getProducts(filters);
+  const { products, pageInfo } = await getProducts(filters).catch(() => ({
+    products: [],
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: false,
+      startCursor: null,
+      endCursor: null,
+    },
+  }));
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">

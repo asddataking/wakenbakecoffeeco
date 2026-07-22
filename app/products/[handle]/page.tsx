@@ -16,6 +16,8 @@ import { formatMoney } from "@/lib/shopify/normalize";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
 
+export const dynamic = "force-dynamic";
+
 type Params = Promise<{ handle: string }>;
 
 export async function generateMetadata({
@@ -65,7 +67,7 @@ const faq = [
 
 export default async function ProductPage({ params }: { params: Params }) {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
+  const product = await getProductByHandle(handle).catch(() => null);
   if (!product) notFound();
 
   const related = await getProductRecommendations(product.id);

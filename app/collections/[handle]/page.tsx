@@ -9,6 +9,8 @@ import type { ShopFilters as Filters } from "@/lib/shopify/types";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
 
+export const dynamic = "force-dynamic";
+
 type Params = Promise<{ handle: string }>;
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -63,7 +65,7 @@ export default async function CollectionPage({
 }) {
   const { handle } = await params;
   const sp = await searchParams;
-  const result = await getCollectionByHandle(handle, parseFilters(sp));
+  const result = await getCollectionByHandle(handle, parseFilters(sp)).catch(() => null);
   if (!result) notFound();
   const { collection, pageInfo } = result;
 

@@ -3,7 +3,7 @@ export const brand = {
   shortName: "Wake N’ Bake",
   supportingBrand: "Powered by DankNDevour",
   tagline: "Rise. Grind. Unwind.",
-  headline: "Brew the good life.",
+  headline: "Rise. Grind. Unwind.",
   supportingPhrase: "Premium small-batch coffee",
   lockup: {
     line1: "WAKE N’ BAKE",

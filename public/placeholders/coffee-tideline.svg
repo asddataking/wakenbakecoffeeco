@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#4a6d8c"/>
+  <rect x="60" y="60" width="680" height="880" fill="#7f9e8a" opacity="0.35"/>
+  <circle cx="400" cy="280" r="80" fill="#e0a07a" opacity="0.7"/>
+  <rect x="320" y="410" width="160" height="210" rx="10" fill="none" stroke="#f3efe6" stroke-width="8"/>
+  <path d="M90 800 C240 740 360 880 450 800 C540 720 650 860 710 780" fill="none" stroke="#f3efe6" stroke-width="8"/>
+  <text x="400" y="940" text-anchor="middle" fill="#f3efe6" font-family="Georgia, serif" font-size="28" letter-spacing="6">TIDE LINE</text>
+</svg>

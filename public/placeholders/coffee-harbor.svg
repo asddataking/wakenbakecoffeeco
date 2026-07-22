@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#0b1f33"/>
+  <rect x="80" y="80" width="640" height="840" fill="#1a3a55"/>
+  <circle cx="400" cy="300" r="70" fill="#c97b4b" opacity="0.5"/>
+  <rect x="310" y="420" width="180" height="220" rx="10" fill="none" stroke="#d4c4a8" stroke-width="8"/>
+  <path d="M100 780 C260 720 420 860 520 780 C620 700 700 820 720 760" fill="none" stroke="#7f9e8a" stroke-width="8"/>
+  <text x="400" y="940" text-anchor="middle" fill="#d4c4a8" font-family="Georgia, serif" font-size="28" letter-spacing="6">HARBOR DARK</text>
+</svg>

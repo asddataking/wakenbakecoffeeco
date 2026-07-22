@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c97b4b"/>
+      <stop offset="45%" stop-color="#4a6d8c"/>
+      <stop offset="100%" stop-color="#0b1f33"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <circle cx="400" cy="320" r="90" fill="#f3efe6" opacity="0.35"/>
+  <rect x="300" y="430" width="200" height="240" rx="12" fill="none" stroke="#f3efe6" stroke-width="8"/>
+  <path d="M120 820 C250 760 350 880 400 820 C450 760 550 880 680 800" fill="none" stroke="#7f9e8a" stroke-width="10"/>
+  <text x="400" y="940" text-anchor="middle" fill="#f3efe6" font-family="Georgia, serif" font-size="28" letter-spacing="6">SUNRISE BLEND</text>
+</svg>

@@ -1,37 +1,67 @@
 import type { Metadata } from "next";
-import { brand } from "@/lib/content/brand";
+import Link from "next/link";
+import { aboutContent } from "@/lib/content/about";
+import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { JsonLd } from "@/components/ui/JsonLd";
+import { brand } from "@/lib/content/brand";
 
 export const metadata: Metadata = {
-  title: "About",
-  description: `The story behind ${brand.name} — coastal coffee from the DankNDevour community.`,
+  title: seo.about.title,
+  description: seo.about.description,
   alternates: { canonical: absoluteUrl("/about") },
 };
 
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16">
-      <h1 className="font-display text-5xl text-ocean">About Wake N Bake</h1>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: seo.about.title,
+          description: seo.about.description,
+          url: absoluteUrl("/about"),
+          isPartOf: {
+            "@type": "WebSite",
+            name: brand.name,
+            url: absoluteUrl("/"),
+          },
+        }}
+      />
+      <p className="text-xs tracking-[0.22em] text-driftwood uppercase">
+        {aboutContent.eyebrow}
+      </p>
+      <h1 className="font-display mt-3 text-5xl text-ocean text-balance">
+        {aboutContent.headline}
+      </h1>
       <div className="mt-8 space-y-5 text-lg leading-relaxed text-ocean/90">
-        <p>
-          Wake N Bake Coffee Co. is a beach-inspired coffee brand built for people who
-          wake up near water — or wish they did — and want a cup that matches the pace of
-          a good day.
-        </p>
-        <p>
-          We launched through the DankNDevour media audience: creators, campers, travelers,
-          and neighbors who value excellent coffee without the pretension. The feeling is
-          simple — brew something honest, step outside, and enjoy the life you already have.
-        </p>
-        <p>
-          Our coffee is sold through Shopify and fulfilled with Dripshipper partners. That
-          keeps roasting and shipping specialized while we focus on community, education,
-          and a storefront that feels like the brand.
-        </p>
-        <p>
-          No medical claims. No intoxication marketing. Just coffee, coastline energy, and
-          the invitation to brew the good life.
-        </p>
+        {aboutContent.opening.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+
+      <div className="mt-14 space-y-12">
+        {aboutContent.sections.map((section) => (
+          <section key={section.id} id={section.id}>
+            <h2 className="font-display text-3xl text-ocean">{section.heading}</h2>
+            <div className="mt-4 space-y-4 text-base leading-relaxed text-ocean/90">
+              {section.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <div className="mt-16 rounded-3xl border border-ocean/10 bg-foam/70 p-8 text-center">
+        <p className="font-display text-2xl text-ocean">{aboutContent.closing}</p>
+        <Link
+          href={aboutContent.ctaHref}
+          className="mt-6 inline-block rounded-full bg-ocean px-6 py-3 text-sm font-semibold text-cream no-underline"
+        >
+          {aboutContent.ctaLabel}
+        </Link>
       </div>
     </div>
   );

@@ -3,17 +3,21 @@
 import { useState } from "react";
 import { readCapturedUtm } from "@/components/layout/UtmCapture";
 import { trackEvent } from "@/lib/analytics/events";
+import { siteCopy } from "@/lib/content/site-copy";
 
 export function ContactForm() {
   const [message, setMessage] = useState("");
+  const [support, setSupport] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { contact } = siteCopy;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError("");
     setMessage("");
+    setSupport("");
     const fd = new FormData(e.currentTarget);
     const utmBag = readCapturedUtm();
     try {
@@ -34,12 +38,14 @@ export function ContactForm() {
         }),
       });
       const data = (await res.json()) as { message?: string; error?: string };
-      if (!res.ok) throw new Error(data.error || "Failed");
-      setMessage(data.message || "Sent.");
+      if (!res.ok) throw new Error(data.error || contact.error);
+      setMessage(contact.success);
+      setSupport(contact.successSupport);
       trackEvent("contact_submit", { form_name: "contact" });
       e.currentTarget.reset();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to send");
+      setError(err instanceof Error ? err.message : contact.error);
+      setSupport(contact.errorSupport);
     } finally {
       setLoading(false);
     }
@@ -48,20 +54,38 @@ export function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <label className="block text-sm">
-        Name
-        <input name="name" required className="mt-1 w-full rounded border border-ocean/20 bg-foam px-3 py-2" />
+        {contact.name}
+        <input
+          name="name"
+          required
+          className="mt-1 w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
+        />
       </label>
       <label className="block text-sm">
-        Email
-        <input name="email" type="email" required className="mt-1 w-full rounded border border-ocean/20 bg-foam px-3 py-2" />
+        {contact.email}
+        <input
+          name="email"
+          type="email"
+          required
+          className="mt-1 w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
+        />
       </label>
       <label className="block text-sm">
-        Phone (optional)
-        <input name="phone" type="tel" className="mt-1 w-full rounded border border-ocean/20 bg-foam px-3 py-2" />
+        {contact.phone}
+        <input
+          name="phone"
+          type="tel"
+          className="mt-1 w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
+        />
       </label>
       <label className="block text-sm">
-        Message
-        <textarea name="message" required rows={5} className="mt-1 w-full rounded border border-ocean/20 bg-foam px-3 py-2" />
+        {contact.message}
+        <textarea
+          name="message"
+          required
+          rows={5}
+          className="mt-1 w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
+        />
       </label>
       <div className="hidden" aria-hidden>
         <input name="website" tabIndex={-1} autoComplete="off" />
@@ -74,11 +98,25 @@ export function ContactForm() {
         <input name="smsConsent" type="checkbox" />
         SMS updates (optional)
       </label>
-      <button type="submit" disabled={loading} className="rounded bg-ocean px-4 py-3 text-cream">
-        Send message
+      <button
+        type="submit"
+        disabled={loading}
+        className="rounded-full bg-ocean px-5 py-3 text-cream disabled:opacity-60"
+      >
+        {loading ? contact.loading : contact.submit}
       </button>
-      {message ? <p className="text-sm text-seaglass">{message}</p> : null}
-      {error ? <p className="text-sm text-red-800">{error}</p> : null}
+      {message ? (
+        <div className="text-sm text-seaglass" role="status">
+          <p className="font-medium">{message}</p>
+          {support ? <p className="mt-1 text-driftwood">{support}</p> : null}
+        </div>
+      ) : null}
+      {error ? (
+        <div className="text-sm text-red-800" role="alert">
+          <p className="font-medium">{error}</p>
+          {support ? <p className="mt-1">{support}</p> : null}
+        </div>
+      ) : null}
     </form>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, ShoppingBag, User, X } from "lucide-react";
 import { brand } from "@/lib/content/brand";
+import { siteCopy } from "@/lib/content/site-copy";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { useCart } from "@/components/commerce/CartProvider";
 import { CartDrawer } from "@/components/commerce/CartDrawer";
@@ -15,11 +16,11 @@ export function Navigation() {
   const count = cart?.totalQuantity ?? 0;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ocean/10 bg-cream/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-ocean/10 bg-ocean/95 text-cream backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <button
           type="button"
-          className="rounded-md p-2 text-ocean md:hidden"
+          className="rounded-md p-2 text-cream md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -28,14 +29,14 @@ export function Navigation() {
           {open ? <X aria-hidden size={22} /> : <Menu aria-hidden size={22} />}
         </button>
 
-        <BrandMark />
+        <BrandMark variant="light" />
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
           {brand.navigation.primary.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium tracking-wide text-ocean/90 no-underline hover:text-ocean"
+              className="text-sm font-medium tracking-wide text-cream/90 no-underline hover:text-cream"
             >
               {item.label}
             </Link>
@@ -46,7 +47,7 @@ export function Navigation() {
           {accountUrl ? (
             <a
               href={accountUrl}
-              className="rounded-md p-2 text-ocean no-underline"
+              className="rounded-md p-2 text-cream no-underline"
               aria-label="Account"
             >
               <User size={20} aria-hidden />
@@ -58,9 +59,9 @@ export function Navigation() {
           )}
           <button
             type="button"
-            className="relative rounded-md p-2 text-ocean"
+            className="relative rounded-md p-2 text-cream"
             onClick={openCart}
-            aria-label={`Open cart${count ? `, ${count} items` : ""}`}
+            aria-label={`Open ${siteCopy.cart.navLabel}${count ? `, ${count} items` : ""}`}
           >
             <ShoppingBag size={20} aria-hidden />
             {count > 0 ? (
@@ -75,7 +76,7 @@ export function Navigation() {
       {open ? (
         <nav
           id="mobile-nav"
-          className="border-t border-ocean/10 bg-cream px-4 py-4 md:hidden"
+          className="border-t border-cream/10 bg-ocean px-4 py-4 md:hidden"
           aria-label="Mobile"
         >
           <ul className="space-y-3">
@@ -83,7 +84,18 @@ export function Navigation() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block text-base font-medium text-ocean no-underline"
+                  className="block text-base font-medium text-cream no-underline"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            {brand.navigation.secondary.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block text-sm text-cream/75 no-underline"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}

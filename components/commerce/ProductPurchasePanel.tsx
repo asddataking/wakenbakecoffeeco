@@ -11,12 +11,15 @@ import {
 import { useCart } from "./CartProvider";
 import { trackEvent } from "@/lib/analytics/events";
 import { cn } from "@/lib/utils/cn";
+import { siteCopy } from "@/lib/content/site-copy";
 
 export function ProductPurchasePanel({ product }: { product: Product }) {
   const { addItem, isPending, error } = useCart();
   const [selected, setSelected] = useState(() => defaultSelectedOptions(product));
   const [quantity, setQuantity] = useState(1);
   const [sellingPlanId, setSellingPlanId] = useState<string | undefined>();
+  const [justAdded, setJustAdded] = useState(false);
+  const copy = siteCopy.product;
 
   const variant = useMemo(
     () => selectVariant(product, selected) ?? product.variants[0],
@@ -49,7 +52,10 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           {variant ? formatMoney(variant.price) : null}
         </p>
         {!available ? (
-          <p className="mt-1 text-sm text-sunrise">Currently unavailable</p>
+          <div className="mt-2">
+            <p className="text-sm font-medium text-sunrise">{copy.soldOutHeading}</p>
+            <p className="text-sm text-driftwood">{copy.soldOutBody}</p>
+          </div>
         ) : null}
       </div>
 
@@ -83,7 +89,9 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
 
       {plans.length > 0 ? (
         <fieldset>
-          <legend className="mb-2 text-sm font-medium text-ocean">Purchase options</legend>
+          <legend className="mb-2 text-sm font-medium text-ocean">
+            {copy.purchaseOptions}
+          </legend>
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm">
               <input
@@ -92,7 +100,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
                 checked={!sellingPlanId}
                 onChange={() => setSellingPlanId(undefined)}
               />
-              One-time purchase
+              {copy.justThisBag}
             </label>
             {plans.map((plan) => (
               <label key={plan.id} className="flex items-center gap-2 text-sm">
@@ -102,7 +110,10 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
                   checked={sellingPlanId === plan.id}
                   onChange={() => setSellingPlanId(plan.id)}
                 />
-                {plan.name}
+                <span>
+                  {copy.keepItComing}
+                  {plan.name ? ` — ${plan.name}` : ""}
+                </span>
                 {plan.description ? (
                   <span className="text-driftwood"> — {plan.description}</span>
                 ) : null}
@@ -115,7 +126,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
       <div className="flex items-end gap-3">
         <div>
           <label htmlFor="qty" className="mb-1 block text-sm font-medium">
-            Quantity
+            {copy.quantity}
           </label>
           <input
             id="qty"
@@ -124,14 +135,16 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
             max={20}
             value={quantity}
             onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
-            className="w-20 rounded border border-ocean/20 bg-foam px-3 py-2"
+            className="w-20 rounded-xl border border-ocean/20 bg-foam px-3 py-2"
           />
         </div>
         <button
           type="button"
           disabled={!available || !variant || isPending}
-          onClick={() =>
-            variant &&
+          onClick={() => {
+            if (!variant) return;
+            setJustAdded(true);
+            window.setTimeout(() => setJustAdded(false), 3200);
             void addItem({
               merchandiseId: variant.id,
               quantity,
@@ -139,13 +152,20 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
               productTitle: product.title,
               price: Number(variant.price.amount),
               currency: variant.price.currencyCode,
-            })
-          }
-          className="flex-1 rounded bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
+            });
+          }}
+          className="flex-1 rounded-full bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
         >
-          {available ? "Add to cart" : "Sold out"}
+          {available ? copy.addToCart : copy.soldOut}
         </button>
       </div>
+
+      {justAdded ? (
+        <div className="rounded-xl border border-seaglass/40 bg-seaglass/10 px-3 py-2" role="status">
+          <p className="text-sm font-medium text-ocean">{copy.addedToStash}</p>
+          <p className="text-sm text-driftwood">{copy.addedSupport}</p>
+        </div>
+      ) : null}
 
       {error ? (
         <p className="text-sm text-red-800" role="alert">
@@ -169,11 +189,11 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
               currency: variant.price.currencyCode,
             })
           }
-          className="w-full rounded bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
+          className="w-full rounded-full bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
         >
           {available && variant
-            ? `Add to cart · ${formatMoney(variant.price)}`
-            : "Sold out"}
+            ? `${copy.addToCart} · ${formatMoney(variant.price)}`
+            : copy.soldOut}
         </button>
       </div>
     </div>
@@ -203,7 +223,7 @@ export function ProductGallery({ product }: { product: Product }) {
           />
         ) : (
           <div className="flex h-full items-center justify-center text-driftwood">
-            Product photography coming soon
+            {siteCopy.product.photographySoon}
           </div>
         )}
       </div>

@@ -1,54 +1,52 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { siteFaq } from "@/lib/content/faq";
+import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
+import { JsonLd } from "@/components/ui/JsonLd";
 
 export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Frequently asked questions about Wake N Bake Coffee Co.",
+  title: seo.faq.title,
+  description: seo.faq.description,
   alternates: { canonical: absoluteUrl("/faq") },
 };
-
-const items = [
-  {
-    q: "Where is checkout handled?",
-    a: "All payments and checkout happen on Shopify-hosted checkout. We never process card data on this storefront.",
-  },
-  {
-    q: "Who ships the coffee?",
-    a: "Fulfillment is managed through Shopify with Dripshipper partners. Timing shown on product pages comes from live Shopify data when available.",
-  },
-  {
-    q: "Do you offer subscriptions?",
-    a: "When selling plans are configured in Shopify, they appear on product pages. Otherwise you can purchase one-time bags from the shop.",
-  },
-  {
-    q: "How do accounts work?",
-    a: "Customer accounts are powered by Shopify. If account login is configured, you will see an account link in the header.",
-  },
-  {
-    q: "Where can I learn to brew?",
-    a: "Visit our Brew Guides for pour-over, French press, and batch drip methods.",
-  },
-];
 
 export default function FaqPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: siteFaq.map((item) => ({
+            "@type": "Question",
+            name: item.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: item.answer,
+            },
+          })),
+        }}
+      />
       <h1 className="font-display text-5xl text-ocean">FAQ</h1>
+      <p className="mt-4 text-driftwood">
+        Straight answers about coffee, checkout, shipping, and the laid-back lifestyle
+        behind the name.
+      </p>
       <div className="mt-10 space-y-4">
-        {items.map((item) => (
-          <details key={item.q} className="border-b border-ocean/10 pb-4">
+        {siteFaq.map((item) => (
+          <details key={item.question} className="rounded-xl border border-ocean/10 bg-foam/50 px-4 py-3">
             <summary className="cursor-pointer text-lg font-medium text-ocean">
-              {item.q}
+              {item.question}
             </summary>
-            <p className="mt-2 text-driftwood">{item.a}</p>
+            <p className="mt-2 text-driftwood">{item.answer}</p>
           </details>
         ))}
       </div>
       <p className="mt-10 text-sm text-driftwood">
         Still stuck?{" "}
         <Link href="/contact" className="underline">
-          Contact us
+          Send a message in a bottle
         </Link>
         .
       </p>

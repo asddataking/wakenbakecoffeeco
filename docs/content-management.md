@@ -14,15 +14,24 @@ Shopify is the source of truth for products, prices, inventory, variants, sellin
 
 | Content | Location |
 |---|---|
-| Brand copy, nav, announcement, currents | `lib/content/brand.ts` |
-| Brew guides (3 articles) | `lib/content/brew-guides.ts` |
-| About / FAQ / legal pages | `app/*/page.tsx` |
-| Temporary logo | `components/ui/BrandMark.tsx` + `public/brand/` |
+| Brand identity, nav, announcement, taste finder, DankNDevour bridge | `lib/content/brand.ts` |
+| Homepage + shared UI microcopy | `lib/content/site-copy.ts` |
+| SEO metadata templates + keyword themes | `lib/content/seo.ts` |
+| Site + product FAQ | `lib/content/faq.ts` |
+| Our Story page | `lib/content/about.ts` |
+| Brew guides | `lib/content/brew-guides.ts` |
+| Coffee Journal articles | `lib/content/articles.ts` |
+| Legal pages | `app/privacy`, `app/terms`, `app/shipping-returns` |
+| Brand assets | `public/brand/` |
 | Approved testimonials | Pass into `ReviewsSection` only when real — never fabricate |
+
+## Brand voice
+
+Relaxed, warm, lightly humorous coastal coffee brand. Clear conversion copy first. Playful “slightly lifted” personality in moderation (~15–20%). Coffee only — no cannabis product claims.
 
 ## Legal placeholders
 
-Pages include `[CONFIRM ...]` markers for owner/legal review (`privacy`, `terms`, `shipping-returns`, address/email in brand config).
+Pages and FAQ include `[CONFIRM ...]` markers for owner/legal review (`privacy`, `terms`, `shipping-returns`, address/email in brand config, shipping window, return policy, subscription terms, Dripshipper language).
 
 ## Reviews policy
 

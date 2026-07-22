@@ -7,12 +7,14 @@ import type { ShopFilters as Filters } from "@/lib/shopify/types";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { ViewItemListTracker } from "@/components/commerce/ViewItemListTracker";
 import Link from "next/link";
+import { siteCopy } from "@/lib/content/site-copy";
+import { seo } from "@/lib/content/seo";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Shop Coffee",
-  description: "Browse Wake N Bake Coffee Co. bags — roasted for mornings by the water.",
+  title: seo.shop.title,
+  description: seo.shop.description,
   alternates: { canonical: absoluteUrl("/shop") },
 };
 
@@ -39,6 +41,7 @@ function parseFilters(sp: Record<string, string | string[] | undefined>): Filter
 export default async function ShopPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;
   const filters = parseFilters(sp);
+  const { shop } = siteCopy;
   const { products, pageInfo } = await getProducts(filters).catch(() => ({
     products: [],
     pageInfo: {
@@ -49,28 +52,38 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
     },
   }));
 
+  const heading = filters.subscription ? "Subscriptions" : shop.heading;
+  const body = filters.subscription ? seo.subscriptions.description : shop.body;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
       <header className="mb-8">
-        <h1 className="font-display text-5xl text-ocean">Shop coffee</h1>
-        <p className="mt-3 max-w-2xl text-driftwood">
-          Filter by roast, type, and price. Checkout is always handled securely by Shopify.
-        </p>
+        <h1 className="font-display text-5xl text-ocean">{heading}</h1>
+        <p className="mt-3 max-w-2xl text-driftwood">{body}</p>
       </header>
 
-      <Suspense fallback={<div className="h-28 animate-pulse rounded bg-sand/40" />}>
+      <Suspense fallback={<div className="h-28 animate-pulse rounded-2xl bg-sand/40" />}>
         <ShopFilters />
       </Suspense>
 
       <ViewItemListTracker products={products} listName="Shop" />
 
       {products.length === 0 ? (
-        <p className="mt-12 text-driftwood">
-          No products match these filters.{" "}
-          <Link href="/shop" className="underline">
-            Clear filters
-          </Link>
-        </p>
+        <div className="mt-12 space-y-3">
+          <h2 className="font-display text-2xl text-ocean">{shop.emptyHeading}</h2>
+          <p className="text-driftwood">{shop.emptyBody}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/shop"
+              className="rounded-full bg-ocean px-4 py-2 text-sm font-semibold text-cream no-underline"
+            >
+              {shop.emptyCta}
+            </Link>
+            <Link href="/shop" className="rounded-full border border-ocean/20 px-4 py-2 text-sm text-ocean no-underline">
+              {shop.clearFilters}
+            </Link>
+          </div>
+        </div>
       ) : (
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
@@ -90,9 +103,9 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
               ),
               cursor: pageInfo.endCursor,
             }).toString()}`}
-            className="rounded border border-ocean/20 px-4 py-2 text-sm text-ocean no-underline"
+            className="rounded-full border border-ocean/20 px-4 py-2 text-sm text-ocean no-underline"
           >
-            Load more
+            {shop.loadMore}
           </Link>
         </div>
       ) : null}

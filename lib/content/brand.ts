@@ -1,22 +1,25 @@
 export const brand = {
-  name: "Wake N Bake Coffee Co.",
-  shortName: "Wake N Bake",
-  tagline: "Brew the good life.",
+  name: "Wake N’ Bake Coffee Co.",
+  shortName: "Wake N’ Bake",
+  supportingBrand: "Powered by DankNDevour",
+  tagline: "Rise. Grind. Unwind.",
+  headline: "Brew the good life.",
+  supportingPhrase: "Premium small-batch coffee",
   lockup: {
-    line1: "WAKE N BAKE",
+    line1: "WAKE N’ BAKE",
     line2: "COFFEE CO.",
-    line3: "BREW THE GOOD LIFE",
+    line3: "RISE. GRIND. UNWIND.",
   },
   logoIsTemporary: false,
   logo: {
     src: "/brand/logo.webp",
     width: 1024,
     height: 1024,
-    alt: "Wake N’ Bake Coffee Co. — Rise. Grind. & Unwind.",
+    alt: "Wake N’ Bake Coffee Co. — Rise. Grind. Unwind.",
   },
   description:
-    "Beach-inspired specialty coffee for mornings by the water, campfire evenings, and everything in between. Roasted for people who wake up ready to brew the good life.",
-  email: "hello@wakenbakecoffeeco.com", // [CONFIRM email]
+    "Fresh coffee for slow mornings, big ideas, road trips, campgrounds, and wherever the day takes you. Wake N’ Bake Coffee Co. is powered by DankNDevour.",
+  email: "hello@wakenbakecoffeeco.com", // [CONFIRM SUPPORT EMAIL]
   phone: "", // [CONFIRM phone]
   address: {
     line1: "[CONFIRM street address]",
@@ -32,59 +35,85 @@ export const brand = {
   },
   announcement: {
     enabled: true,
-    message: "Fresh coffee for slow mornings and open roads — subscribe & save when plans go live.",
     href: "/shop",
+    messages: [
+      "Fresh coffee. Smooth sailing.",
+      "Join the crew and catch our latest drops.",
+      "Coffee for mornings that start whenever you do.",
+      "Fresh roast headed your way. No compass required.",
+    ],
   },
   currents: [
     {
       id: "smooth-easy",
       title: "Smooth & Easy",
-      description: "Mellow cups for sunrise pour-overs and easy mornings.",
+      description:
+        "For laid-back cups, easy sipping, and mornings that do not need any extra drama.",
+      cta: "Keep It Mellow",
       tag: "smooth",
       href: "/shop?roast=light&q=smooth",
     },
     {
       id: "bold-dark",
       title: "Bold & Dark",
-      description: "Deep, robust roasts for campfire mugs and late watches.",
+      description:
+        "Deep, rich coffee for early starts, late nights, and serious mug situations.",
+      cta: "Go Bold",
       tag: "bold",
       href: "/shop?roast=dark&q=bold",
     },
     {
       id: "bright-adventurous",
       title: "Bright & Adventurous",
-      description: "Lively acidity and origin character for curious palates.",
+      description:
+        "Lively flavor for curious people and mornings with somewhere to go.",
+      cta: "Catch the Wave",
       tag: "bright",
       href: "/shop?roast=medium&q=bright",
     },
     {
       id: "decaf-laid-back",
       title: "Decaf & Laid Back",
-      description: "Full flavor without the buzz — evenings by the tide.",
+      description: "All the ritual. Less of the zooming through space part.",
+      cta: "Stay Mellow",
       tag: "decaf",
       href: "/shop?type=decaf",
     },
   ],
   dankNDevour: {
-    title: "Born from DankNDevour",
+    eyebrow: "From the DankNDevour crew",
+    title: "A new kind of daily ritual.",
     description:
-      "Wake N Bake Coffee Co. grew out of the DankNDevour community — people who value good coffee, open air, and living well. Same crew energy. Now in a bag.",
-    ctaLabel: "Shop the collection",
-    ctaHref: "/shop",
+      "You may already know Dan from honest reviews, questionable jokes, good food, road trips, and long conversations that occasionally wander into outer space. Wake N’ Bake Coffee Co. is the next part of that story: genuinely good coffee for the community that has been riding along from the beginning.",
+    ctaLabel: "Read Our Story",
+    ctaHref: "/about",
+  },
+  luna: {
+    emptyCart: "Luna inspected the vibes. The cart still needs coffee.",
+    notFound: "Luna is pretending she knows the way back.",
+    about:
+      "Luna is part of the visual identity and brand personality — a gentle supporting mascot who shows up in empty states, story moments, and the occasional illustration. Approved by Luna. Technically, she approves most snacks.",
   },
   navigation: {
     primary: [
       { label: "Shop", href: "/shop" },
+      { label: "Best Sellers", href: "/shop?sort=featured" },
+      { label: "Subscriptions", href: "/shop?subscription=true" },
       { label: "Brew Guides", href: "/brew-guides" },
-      { label: "About", href: "/about" },
-      { label: "Wholesale", href: "/wholesale" },
+      { label: "Our Story", href: "/about" },
+    ],
+    secondary: [
+      { label: "FAQ", href: "/faq" },
       { label: "Contact", href: "/contact" },
+      { label: "Wholesale", href: "/wholesale" },
+      { label: "Journal", href: "/journal" },
     ],
     footer: [
       {
         title: "Shop",
         links: [
           { label: "All Coffee", href: "/shop" },
+          { label: "Best Sellers", href: "/shop?sort=featured" },
           { label: "Subscriptions", href: "/shop?subscription=true" },
           { label: "Brew Guides", href: "/brew-guides" },
         ],
@@ -92,7 +121,8 @@ export const brand = {
       {
         title: "Company",
         links: [
-          { label: "About", href: "/about" },
+          { label: "Our Story", href: "/about" },
+          { label: "Journal", href: "/journal" },
           { label: "Wholesale", href: "/wholesale" },
           { label: "FAQ", href: "/faq" },
           { label: "Contact", href: "/contact" },

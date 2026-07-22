@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { brewGuides } from "@/lib/content/brew-guides";
+import { articles } from "@/lib/content/articles";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { getCollections, getProducts, isDemoMode } from "@/lib/shopify/client";
 
@@ -11,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contact",
     "/faq",
     "/brew-guides",
+    "/journal",
     "/wholesale",
     "/privacy",
     "/terms",
@@ -27,6 +29,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(guide.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.6,
+  }));
+
+  const journalRoutes = articles.map((article) => ({
+    url: absoluteUrl(`/journal/${article.slug}`),
+    lastModified: new Date(article.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.65,
   }));
 
   let productRoutes: MetadataRoute.Sitemap = [];
@@ -55,5 +64,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  return [...staticRoutes, ...guideRoutes, ...collectionRoutes, ...productRoutes];
+  return [
+    ...staticRoutes,
+    ...guideRoutes,
+    ...journalRoutes,
+    ...collectionRoutes,
+    ...productRoutes,
+  ];
 }

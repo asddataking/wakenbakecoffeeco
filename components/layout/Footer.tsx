@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { brand } from "@/lib/content/brand";
+import { siteCopy } from "@/lib/content/site-copy";
 import { BrandMark } from "@/components/ui/BrandMark";
 
 export function Footer() {
@@ -11,6 +12,9 @@ export function Footer() {
           <BrandMark variant="light" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-cream/80">
             {brand.description}
+          </p>
+          <p className="mt-3 text-xs tracking-[0.18em] text-cream/55 uppercase">
+            {brand.supportingBrand}
           </p>
           {brand.logoIsTemporary ? (
             <p className="mt-3 text-xs text-cream/55">
@@ -36,9 +40,9 @@ export function Footer() {
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-cream/60 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {brand.name}. Brew the good life.
+            © {new Date().getFullYear()} {brand.name}. {siteCopy.footer.tagline}
           </p>
-          <p>Checkout secured by Shopify. Fulfillment via Dripshipper partners.</p>
+          <p>{siteCopy.footer.trust}</p>
         </div>
       </div>
     </footer>

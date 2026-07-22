@@ -29,7 +29,7 @@ const sans = Source_Sans_3({
 export const metadata: Metadata = {
   metadataBase: new URL(absoluteUrl("/")),
   title: {
-    default: `${brand.name} | ${brand.tagline}`,
+    default: `Wake N’ Bake Coffee Co. | Brew the Good Life`,
     template: `%s | ${brand.name}`,
   },
   description: brand.description,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: absoluteUrl("/"),
     siteName: brand.name,
-    title: brand.name,
+    title: `Wake N’ Bake Coffee Co. | Brew the Good Life`,
     description: brand.description,
     images: [
       {

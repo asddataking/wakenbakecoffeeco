@@ -1,4 +1,5 @@
 import type { CoffeeMetafields } from "@/lib/shopify/types";
+import { siteCopy } from "@/lib/content/site-copy";
 
 const labels: Record<keyof CoffeeMetafields, string> = {
   roastLevel: "Roast level",
@@ -25,7 +26,7 @@ export function CoffeeMetafieldsList({ metafields }: { metafields: CoffeeMetafie
   return (
     <section aria-labelledby="coffee-details-heading" className="mt-10">
       <h2 id="coffee-details-heading" className="font-display text-2xl text-ocean">
-        In the cup
+        {siteCopy.product.factsHeading}
       </h2>
       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
         {entries.map((entry) => (

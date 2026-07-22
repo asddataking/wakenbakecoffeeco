@@ -15,6 +15,10 @@ import { ProductCard } from "@/components/commerce/ProductCard";
 import { formatMoney } from "@/lib/shopify/normalize";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { productFaq } from "@/lib/content/faq";
+import { siteCopy } from "@/lib/content/site-copy";
+import { seo } from "@/lib/content/seo";
+import { brand } from "@/lib/content/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -29,13 +33,16 @@ export async function generateMetadata({
   const product = await getProductByHandle(handle);
   if (!product) return { title: "Product" };
   const image = product.featuredImage?.url;
+  const description =
+    product.seo.description ||
+    seo.productDescriptionFallback(product.title, product.description.slice(0, 160));
   return {
-    title: product.seo.title || product.title,
-    description: product.seo.description || product.description.slice(0, 160),
+    title: product.seo.title || seo.productTitleTemplate(product.title),
+    description,
     alternates: { canonical: absoluteUrl(`/products/${handle}`) },
     openGraph: {
       title: product.title,
-      description: product.description.slice(0, 160),
+      description,
       images: image ? [{ url: image }] : undefined,
     },
   };
@@ -50,27 +57,13 @@ export async function generateStaticParams() {
   }
 }
 
-const faq = [
-  {
-    q: "How fresh is the coffee?",
-    a: "Roast and ship timing come from our Shopify/Dripshipper catalog. Check each product’s shipping note when available.",
-  },
-  {
-    q: "Whole bean or ground?",
-    a: "Choose grind on the product variants when offered. Whole bean stays freshest longest.",
-  },
-  {
-    q: "Can I subscribe?",
-    a: "If a selling plan appears above, you can subscribe at checkout through Shopify. Otherwise one-time purchase is available.",
-  },
-];
-
 export default async function ProductPage({ params }: { params: Params }) {
   const { handle } = await params;
   const product = await getProductByHandle(handle).catch(() => null);
   if (!product) notFound();
 
   const related = await getProductRecommendations(product.id);
+  const { product: productCopy } = siteCopy;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 pb-28 md:pb-12">
@@ -83,7 +76,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             description: product.description,
             image: product.images.map((i) => i.url),
             sku: product.variants[0]?.sku || undefined,
-            brand: { "@type": "Brand", name: product.vendor || "Wake N Bake Coffee Co." },
+            brand: { "@type": "Brand", name: product.vendor || brand.name },
             offers: {
               "@type": "Offer",
               priceCurrency: product.priceRange.minVariantPrice.currencyCode,
@@ -108,6 +101,18 @@ export default async function ProductPage({ params }: { params: Params }) {
               },
             ],
           },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: productFaq.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          },
         ]}
       />
 
@@ -123,7 +128,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         <div>
           <h1 className="font-display text-4xl text-ocean md:text-5xl">{product.title}</h1>
           <p className="mt-2 text-driftwood">
-            From {formatMoney(product.priceRange.minVariantPrice)}
+            {productCopy.fromPrice} {formatMoney(product.priceRange.minVariantPrice)}
           </p>
           <div
             className="prose-ocean mt-6 space-y-3 text-ocean/90"
@@ -139,18 +144,37 @@ export default async function ProductPage({ params }: { params: Params }) {
       <section className="mt-16">
         <h2 className="font-display text-3xl text-ocean">FAQ</h2>
         <div className="mt-6 space-y-4">
-          {faq.map((item) => (
-            <details key={item.q} className="border-b border-ocean/10 pb-4">
-              <summary className="cursor-pointer font-medium text-ocean">{item.q}</summary>
-              <p className="mt-2 text-sm text-driftwood">{item.a}</p>
+          {productFaq.map((item) => (
+            <details
+              key={item.question}
+              className="rounded-xl border border-ocean/10 bg-foam/40 px-4 py-3"
+            >
+              <summary className="cursor-pointer font-medium text-ocean">
+                {item.question}
+              </summary>
+              <p className="mt-2 text-sm text-driftwood">{item.answer}</p>
             </details>
           ))}
         </div>
       </section>
 
+      <section className="mt-10 rounded-2xl border border-ocean/10 bg-foam/50 p-5">
+        <p className="text-sm text-driftwood">
+          Want brewing help?{" "}
+          <Link href="/brew-guides" className="text-ocean underline">
+            Explore brew guides
+          </Link>{" "}
+          or{" "}
+          <Link href="/journal" className="text-ocean underline">
+            read the coffee journal
+          </Link>
+          .
+        </p>
+      </section>
+
       {related.length > 0 ? (
         <section className="mt-16">
-          <h2 className="font-display text-3xl text-ocean">You may also like</h2>
+          <h2 className="font-display text-3xl text-ocean">{productCopy.relatedHeading}</h2>
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {related.slice(0, 4).map((p) => (
               <ProductCard key={p.id} product={p} />

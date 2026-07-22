@@ -63,8 +63,8 @@ export async function POST(request: Request) {
       mode: result.mode,
       message:
         raw.form === "first-order"
-          ? "You are on the list. Watch your inbox for first-order details."
-          : "Welcome aboard — check your inbox soon.",
+          ? "You’re in, dude. Watch your inbox for first-order updates."
+          : "You’re in, dude.",
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -73,6 +73,9 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    return NextResponse.json({ error: "Unable to submit form" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Whoa. Something drifted off course." },
+      { status: 500 },
+    );
   }
 }

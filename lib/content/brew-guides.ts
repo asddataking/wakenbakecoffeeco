@@ -1,18 +1,26 @@
 export type BrewGuide = {
   slug: string;
   title: string;
+  seoTitle: string;
+  metaDescription: string;
   excerpt: string;
   readTime: string;
   heroMotif: "pour-over" | "french-press" | "camp";
   publishedAt: string;
   sections: Array<{ heading: string; body: string[] }>;
   tips: string[];
+  faq: Array<{ question: string; answer: string }>;
+  relatedArticleSlugs: string[];
+  relatedGuideSlugs: string[];
 };
 
 export const brewGuides: BrewGuide[] = [
   {
     slug: "sunrise-pour-over",
     title: "Sunrise Pour-Over",
+    seoTitle: "Sunrise Pour-Over Brew Guide | Wake N’ Bake Coffee Co.",
+    metaDescription:
+      "A calm pour-over coffee guide with ratio, grind, bloom, and timing for a clear morning cup.",
     excerpt:
       "A calm, clear cup for mornings when the horizon is still pink and the day is wide open.",
     readTime: "6 min",
@@ -47,10 +55,27 @@ export const brewGuides: BrewGuide[] = [
       "Grind finer if the cup tastes thin; coarser if it tastes harsh or bitter.",
       "Weigh both coffee and water — consistency beats guessing on the road or at camp.",
     ],
+    faq: [
+      {
+        question: "What roast works best for pour-over?",
+        answer:
+          "Any roast can work. Lighter and medium roasts often show more clarity; darker roasts bring deeper body.",
+      },
+      {
+        question: "Do I need a gooseneck kettle?",
+        answer:
+          "It helps with control, but a careful pour from a regular kettle can still make a good cup.",
+      },
+    ],
+    relatedArticleSlugs: ["coffee-to-water-ratio", "better-drip-coffee-at-home"],
+    relatedGuideSlugs: ["tidewatch-drip", "camp-french-press"],
   },
   {
     slug: "camp-french-press",
     title: "Camp French Press",
+    seoTitle: "Camp French Press Coffee Guide | Wake N’ Bake Coffee Co.",
+    metaDescription:
+      "Brew full-bodied French press coffee at camp with a simple ratio, coarse grind, and packing tips.",
     excerpt:
       "A rugged, full-bodied brew that travels well — picnic tables, trailheads, and rental kitchens included.",
     readTime: "5 min",
@@ -85,10 +110,27 @@ export const brewGuides: BrewGuide[] = [
       "Decant into a thermos if you are not drinking right away.",
       "A bold or dark roast stands up well to camp milk and cooler air.",
     ],
+    faq: [
+      {
+        question: "How do I reduce grit at camp?",
+        answer:
+          "Use a coarser grind, press gently, and pour soon after pressing. See our French press article for more detail.",
+      },
+      {
+        question: "Can I pre-measure coffee at home?",
+        answer:
+          "Yes. Portion sealed bags before the trip and label them for French press.",
+      },
+    ],
+    relatedArticleSlugs: ["camp-coffee-guide", "french-press-without-grit"],
+    relatedGuideSlugs: ["sunrise-pour-over", "tidewatch-drip"],
   },
   {
     slug: "tidewatch-drip",
     title: "Tidewatch Batch Drip",
+    seoTitle: "Batch Drip Coffee Guide | Wake N’ Bake Coffee Co.",
+    metaDescription:
+      "Make better automatic drip coffee at home with grind, ratio, filter tips, and carafe habits.",
     excerpt:
       "Set-and-forget drip for house guests, beach weekends, and slow Sunday spreads.",
     readTime: "4 min",
@@ -122,6 +164,20 @@ export const brewGuides: BrewGuide[] = [
       "Label grind and ratio on a piece of tape inside your travel bin so anyone can brew.",
       "Smooth blends shine here; save your brightest single origins for pour-over.",
     ],
+    faq: [
+      {
+        question: "Why does my drip coffee taste bitter?",
+        answer:
+          "Often the grind is too fine, the machine is dirty, or coffee sat on a hot plate too long. See our bitterness guide for fixes.",
+      },
+      {
+        question: "Should I use whole bean?",
+        answer:
+          "If you can grind fresh, yes. Otherwise buy ground coffee sized for drip and use it sooner.",
+      },
+    ],
+    relatedArticleSlugs: ["better-drip-coffee-at-home", "why-coffee-tastes-bitter"],
+    relatedGuideSlugs: ["sunrise-pour-over", "camp-french-press"],
   },
 ];
 

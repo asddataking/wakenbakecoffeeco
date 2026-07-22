@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { readCapturedUtm } from "@/components/layout/UtmCapture";
 import { trackEvent } from "@/lib/analytics/events";
+import { siteCopy } from "@/lib/content/site-copy";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -13,10 +14,13 @@ export function NewsletterForm({
 }) {
   const [state, setState] = useState<FormState>("idle");
   const [message, setMessage] = useState("");
+  const [support, setSupport] = useState("");
+  const { newsletter } = siteCopy;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setState("loading");
+    setSupport("");
     const form = e.currentTarget;
     const fd = new FormData(form);
     const utmBag = readCapturedUtm();
@@ -47,14 +51,16 @@ export function NewsletterForm({
         body: JSON.stringify(payload),
       });
       const data = (await res.json()) as { message?: string; error?: string };
-      if (!res.ok) throw new Error(data.error || "Submission failed");
+      if (!res.ok) throw new Error(data.error || newsletter.error);
       setState("success");
-      setMessage(data.message || "Thanks for joining.");
+      setMessage(newsletter.success);
+      setSupport(newsletter.successSupport);
       trackEvent("newsletter_signup", { form_name: variant });
       form.reset();
     } catch (err) {
       setState("error");
-      setMessage(err instanceof Error ? err.message : "Something went wrong");
+      setMessage(err instanceof Error ? err.message : newsletter.error);
+      setSupport(newsletter.errorSupport);
     }
   }
 
@@ -62,35 +68,35 @@ export function NewsletterForm({
     <form onSubmit={onSubmit} className="space-y-3" noValidate>
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block text-sm">
-          <span className="mb-1 block">Name</span>
+          <span className="mb-1 block">{newsletter.nameLabel}</span>
           <input
             name="name"
             required
             autoComplete="name"
-            className="w-full rounded border border-ocean/20 bg-foam px-3 py-2"
+            className="w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
           />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block">Email</span>
+          <span className="mb-1 block">{newsletter.emailLabel}</span>
           <input
             name="email"
             type="email"
             required
             autoComplete="email"
-            className="w-full rounded border border-ocean/20 bg-foam px-3 py-2"
+            placeholder={newsletter.emailPlaceholder}
+            className="w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
           />
         </label>
       </div>
       <label className="block text-sm">
-        <span className="mb-1 block">Phone (optional)</span>
+        <span className="mb-1 block">{newsletter.phoneLabel}</span>
         <input
           name="phone"
           type="tel"
           autoComplete="tel"
-          className="w-full rounded border border-ocean/20 bg-foam px-3 py-2"
+          className="w-full rounded-xl border border-ocean/20 bg-foam px-3 py-2"
         />
       </label>
-      {/* Honeypot */}
       <div className="hidden" aria-hidden="true">
         <label>
           Website
@@ -99,26 +105,31 @@ export function NewsletterForm({
       </div>
       <label className="flex items-start gap-2 text-sm">
         <input name="emailConsent" type="checkbox" required className="mt-1" />
-        <span>I agree to receive email updates from Wake N Bake Coffee Co.</span>
+        <span>{newsletter.consent}</span>
       </label>
       <label className="flex items-start gap-2 text-sm">
         <input name="smsConsent" type="checkbox" className="mt-1" />
-        <span>Text me occasional offers (optional, unchecked by default).</span>
+        <span>{newsletter.smsConsent}</span>
       </label>
       <button
         type="submit"
         disabled={state === "loading"}
-        className="rounded bg-ocean px-4 py-3 text-cream disabled:opacity-60"
+        className="rounded-full bg-ocean px-5 py-3 text-cream disabled:opacity-60"
       >
-        {variant === "first-order" ? "Get first-order offer" : "Join the list"}
+        {state === "loading"
+          ? newsletter.loading
+          : variant === "first-order"
+            ? newsletter.firstOrderButton
+            : newsletter.button}
       </button>
       {message ? (
-        <p
+        <div
           className={state === "error" ? "text-sm text-red-800" : "text-sm text-seaglass"}
           role="status"
         >
-          {message}
-        </p>
+          <p className="font-medium">{message}</p>
+          {support ? <p className="mt-1 text-driftwood">{support}</p> : null}
+        </div>
       ) : null}
     </form>
   );

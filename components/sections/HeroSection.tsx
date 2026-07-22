@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { BrandEmblem } from "@/components/ui/BrandMark";
 import { brand } from "@/lib/content/brand";
+import { siteCopy } from "@/lib/content/site-copy";
 
 export function HeroSection() {
+  const { hero } = siteCopy;
+
   return (
     <section className="relative isolate min-h-[88vh] overflow-hidden text-cream">
-      <div
-        className="absolute inset-0 -z-10 bg-ocean-deep"
-        aria-hidden
-      >
+      <div className="absolute inset-0 -z-10 bg-ocean-deep" aria-hidden>
         <div className="animate-horizon absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(201,123,75,0.45),transparent_50%),linear-gradient(180deg,#1a3a55_0%,#0b1f33_42%,#071525_72%,#0a2430_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(180deg,transparent,rgba(7,21,37,0.85))]" />
         <svg
@@ -37,27 +37,29 @@ export function HeroSection() {
             sizes="(max-width: 640px) 144px, 176px"
             priority
           />
-          <p className="sr-only">{brand.name}</p>
-          <h1 className="font-display text-5xl leading-[1.05] text-balance sm:text-6xl md:text-7xl">
-            {brand.tagline}
-          </h1>
-          <p className="mt-5 max-w-md text-lg text-cream/85">
-            Coastal mornings, campfire evenings, and coffee worth slowing down for.
+          <p className="text-xs tracking-[0.28em] text-sunrise-soft uppercase">
+            {hero.eyebrow}
           </p>
+          <p className="sr-only">{brand.name}</p>
+          <h1 className="font-display mt-3 text-5xl leading-[1.05] text-balance sm:text-6xl md:text-7xl">
+            {hero.headline}
+          </h1>
+          <p className="mt-5 max-w-lg text-lg text-cream/85">{hero.body}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/shop"
-              className="rounded bg-sunrise px-5 py-3 text-sm font-semibold tracking-wide text-ocean-deep no-underline"
+              href={hero.primaryHref}
+              className="rounded-full bg-sunrise px-6 py-3 text-sm font-semibold tracking-wide text-ocean-deep no-underline shadow-[0_10px_30px_rgba(201,123,75,0.35)] transition hover:bg-sunrise-soft"
             >
-              Shop coffee
+              {hero.primaryCta}
             </Link>
             <Link
-              href="/brew-guides"
-              className="rounded border border-cream/40 px-5 py-3 text-sm font-semibold tracking-wide text-cream no-underline"
+              href={hero.secondaryHref}
+              className="rounded-full border border-cream/40 bg-cream/5 px-6 py-3 text-sm font-semibold tracking-wide text-cream no-underline backdrop-blur-sm transition hover:border-cream/70 hover:bg-cream/10"
             >
-              Brew guides
+              {hero.secondaryCta}
             </Link>
           </div>
+          <p className="mt-5 text-sm text-cream/65">{hero.microcopy}</p>
         </div>
       </div>
     </section>

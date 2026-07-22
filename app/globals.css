@@ -17,6 +17,7 @@
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
   --font-sans: "Source Sans 3", "Source Sans Pro", "Segoe UI", sans-serif;
   --shadow-soft: 0 18px 50px rgba(11, 31, 51, 0.12);
+  --shadow-lift: 0 10px 30px rgba(11, 31, 51, 0.08);
 }
 
 @layer base {

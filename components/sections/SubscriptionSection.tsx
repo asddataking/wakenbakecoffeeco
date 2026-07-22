@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Product } from "@/lib/shopify/types";
+import { siteCopy } from "@/lib/content/site-copy";
 
 export function SubscriptionSection({
   hasSellingPlans,
@@ -7,36 +8,37 @@ export function SubscriptionSection({
   hasSellingPlans: boolean;
   subscriptionProducts?: Product[];
 }) {
+  const { subscriptions } = siteCopy;
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-20">
-      <div className="texture-topo rounded-2xl border border-ocean/10 bg-foam/80 px-6 py-12 md:px-12">
-        <p className="text-xs tracking-[0.22em] text-driftwood uppercase">Recurring coffee</p>
-        <h2 className="font-display mt-2 text-4xl text-ocean">Never run the pot dry</h2>
+      <div className="texture-topo rounded-3xl border border-ocean/10 bg-foam/80 px-6 py-12 shadow-soft md:px-12">
+        <p className="text-xs tracking-[0.22em] text-driftwood uppercase">
+          {subscriptions.eyebrow}
+        </p>
+        <h2 className="font-display mt-2 text-4xl text-ocean md:text-5xl">
+          {subscriptions.heading}
+        </h2>
         {hasSellingPlans ? (
           <>
-            <p className="mt-3 max-w-2xl text-driftwood">
-              Subscribe through Shopify selling plans for automatic deliveries. Manage or
-              cancel anytime in your Shopify customer account after checkout.
-            </p>
+            <p className="mt-3 max-w-2xl text-driftwood">{subscriptions.body}</p>
+            <p className="mt-2 text-sm text-driftwood/80">{subscriptions.note}</p>
             <Link
-              href="/shop?subscription=true"
-              className="mt-6 inline-block rounded bg-seaglass px-5 py-3 text-sm font-semibold text-ocean-deep no-underline"
+              href={subscriptions.primaryHref}
+              className="mt-6 inline-block rounded-full bg-seaglass px-6 py-3 text-sm font-semibold text-ocean-deep no-underline transition hover:bg-seaglass-bright"
             >
-              Explore subscriptions
+              {subscriptions.primaryCta}
             </Link>
           </>
         ) : (
           <>
-            <p className="mt-3 max-w-2xl text-driftwood">
-              Recurring delivery options will appear on product pages once Shopify selling
-              plans are configured. Until then, explore the full catalog and stock up for
-              the week.
-            </p>
+            <p className="mt-3 max-w-2xl text-driftwood">{subscriptions.fallbackBody}</p>
+            <p className="mt-2 text-sm text-driftwood/80">{subscriptions.note}</p>
             <Link
-              href="/shop"
-              className="mt-6 inline-block rounded bg-seaglass px-5 py-3 text-sm font-semibold text-ocean-deep no-underline"
+              href={subscriptions.fallbackHref}
+              className="mt-6 inline-block rounded-full bg-seaglass px-6 py-3 text-sm font-semibold text-ocean-deep no-underline transition hover:bg-seaglass-bright"
             >
-              Explore recurring coffee
+              {subscriptions.fallbackCta}
             </Link>
           </>
         )}

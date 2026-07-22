@@ -9,14 +9,15 @@ import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
 import { getCollectionByHandle, getProducts } from "@/lib/shopify/client";
 import { brand } from "@/lib/content/brand";
+import { seo } from "@/lib/content/seo";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: `${brand.name} | ${brand.tagline}`,
-  description: brand.description,
+  title: { absolute: seo.home.title },
+  description: seo.home.description,
   alternates: { canonical: absoluteUrl("/") },
 };
 
@@ -47,8 +48,9 @@ export default async function HomePage() {
           "@type": "Organization",
           name: brand.name,
           url: absoluteUrl("/"),
-          description: brand.description,
+          description: seo.home.description,
           email: brand.email,
+          slogan: brand.tagline,
         }}
       />
       <HeroSection />

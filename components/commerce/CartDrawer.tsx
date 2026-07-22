@@ -6,6 +6,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { useCart } from "./CartProvider";
 import { formatMoney } from "@/lib/shopify/normalize";
+import { siteCopy } from "@/lib/content/site-copy";
+import { brand } from "@/lib/content/brand";
 
 export function CartDrawer() {
   const { cart, isOpen, closeCart, updateItem, removeItem, applyCode, checkout, isPending, error } =
@@ -13,6 +15,7 @@ export function CartDrawer() {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
   const [code, setCode] = useState("");
+  const { cart: copy } = siteCopy;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -46,7 +49,7 @@ export function CartDrawer() {
       >
         <div className="flex items-center justify-between border-b border-ocean/10 px-4 py-4">
           <h2 id={titleId} className="font-display text-2xl text-ocean">
-            Your cart
+            {copy.drawerHeading}
           </h2>
           <button
             ref={closeRef}
@@ -61,17 +64,23 @@ export function CartDrawer() {
 
         <div className="flex-1 overflow-y-auto px-4 py-4">
           {!cart || cart.lines.length === 0 ? (
-            <p className="text-driftwood">
-              Your cart is empty.{" "}
-              <Link href="/shop" className="text-ocean underline" onClick={closeCart}>
-                Browse coffee
+            <div className="space-y-3">
+              <h3 className="font-display text-xl text-ocean">{copy.emptyHeading}</h3>
+              <p className="text-driftwood">{copy.emptyBody}</p>
+              <p className="text-sm text-driftwood/80">{brand.luna.emptyCart}</p>
+              <Link
+                href="/shop"
+                className="inline-block rounded-full bg-ocean px-4 py-2 text-sm font-semibold text-cream no-underline"
+                onClick={closeCart}
+              >
+                {copy.emptyCta}
               </Link>
-            </p>
+            </div>
           ) : (
             <ul className="space-y-4">
               {cart.lines.map((line) => (
                 <li key={line.id} className="flex gap-3 border-b border-ocean/10 pb-4">
-                  <div className="relative h-20 w-16 overflow-hidden bg-sand/40">
+                  <div className="relative h-20 w-16 overflow-hidden rounded-lg bg-sand/40">
                     {line.merchandise.product.featuredImage ? (
                       <Image
                         src={line.merchandise.product.featuredImage.url}
@@ -97,7 +106,7 @@ export function CartDrawer() {
                     <p className="mt-1 text-sm">{formatMoney(line.cost.amountPerQuantity)}</p>
                     <div className="mt-2 flex items-center gap-2">
                       <label className="sr-only" htmlFor={`qty-${line.id}`}>
-                        Quantity
+                        {copy.quantity}
                       </label>
                       <input
                         id={`qty-${line.id}`}
@@ -107,14 +116,14 @@ export function CartDrawer() {
                         onChange={(e) =>
                           void updateItem(line.id, Number(e.target.value) || 1)
                         }
-                        className="w-16 rounded border border-ocean/20 bg-foam px-2 py-1 text-sm"
+                        className="w-16 rounded-lg border border-ocean/20 bg-foam px-2 py-1 text-sm"
                       />
                       <button
                         type="button"
                         className="text-sm text-driftwood underline"
                         onClick={() => void removeItem(line.id)}
                       >
-                        Remove
+                        {copy.remove}
                       </button>
                     </div>
                   </div>
@@ -133,35 +142,34 @@ export function CartDrawer() {
             }}
           >
             <label className="sr-only" htmlFor="discount-code">
-              Discount code
+              {copy.discountPlaceholder}
             </label>
             <input
               id="discount-code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Discount code"
-              className="flex-1 rounded border border-ocean/20 bg-foam px-3 py-2 text-sm"
+              placeholder={copy.discountPlaceholder}
+              className="flex-1 rounded-lg border border-ocean/20 bg-foam px-3 py-2 text-sm"
             />
             <button
               type="submit"
-              className="rounded bg-denim px-3 py-2 text-sm text-cream"
+              className="rounded-lg bg-denim px-3 py-2 text-sm text-cream"
               disabled={isPending}
             >
-              Apply
+              {copy.apply}
             </button>
           </form>
           {cart?.discountCodes.map((d) => (
             <p key={d.code} className="mb-2 text-xs text-driftwood">
-              {d.code}: {d.applicable ? "applied" : "not applicable"}
+              {d.code}: {d.applicable ? copy.discountApplied : copy.discountNotApplicable}
             </p>
           ))}
           <div className="mb-3 flex justify-between text-sm">
-            <span>Subtotal</span>
+            <span>{copy.subtotal}</span>
             <span>{cart ? formatMoney(cart.cost.subtotalAmount) : "$0.00"}</span>
           </div>
-          <p className="mb-3 text-xs text-driftwood">
-            Tax and shipping are calculated at Shopify checkout.
-          </p>
+          <p className="mb-1 text-xs text-driftwood">{copy.microcopy}</p>
+          <p className="mb-3 text-xs text-driftwood/80">{copy.playfulTrust}</p>
           {error ? (
             <p className="mb-3 text-sm text-red-800" role="alert">
               {error}
@@ -171,16 +179,16 @@ export function CartDrawer() {
             type="button"
             onClick={() => void checkout()}
             disabled={!cart?.lines.length || isPending}
-            className="w-full rounded bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
+            className="w-full rounded-full bg-ocean px-4 py-3 font-medium text-cream disabled:opacity-50"
           >
-            Checkout with Shopify
+            {copy.checkout}
           </button>
           <Link
             href="/cart"
             onClick={closeCart}
             className="mt-3 block text-center text-sm text-ocean underline"
           >
-            View full cart
+            {copy.viewFullCart}
           </Link>
         </div>
       </aside>

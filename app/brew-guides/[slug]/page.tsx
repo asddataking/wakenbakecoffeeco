@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { brewGuides, getBrewGuide } from "@/lib/content/brew-guides";
+import { getArticle } from "@/lib/content/articles";
+import { brand } from "@/lib/content/brand";
 import { absoluteUrl } from "@/lib/utils/cn";
 import { JsonLd } from "@/components/ui/JsonLd";
 
@@ -20,8 +22,8 @@ export async function generateMetadata({
   const guide = getBrewGuide(slug);
   if (!guide) return { title: "Brew Guide" };
   return {
-    title: guide.title,
-    description: guide.excerpt,
+    title: guide.seoTitle,
+    description: guide.metaDescription,
     alternates: { canonical: absoluteUrl(`/brew-guides/${slug}`) },
   };
 }
@@ -31,6 +33,13 @@ export default async function BrewGuidePage({ params }: { params: Params }) {
   const guide = getBrewGuide(slug);
   if (!guide) notFound();
 
+  const relatedArticles = guide.relatedArticleSlugs
+    .map((related) => getArticle(related))
+    .filter(Boolean);
+  const relatedGuides = guide.relatedGuideSlugs
+    .map((related) => getBrewGuide(related))
+    .filter(Boolean);
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-16">
       <JsonLd
@@ -39,8 +48,9 @@ export default async function BrewGuidePage({ params }: { params: Params }) {
           "@type": "Article",
           headline: guide.title,
           datePublished: guide.publishedAt,
-          description: guide.excerpt,
-          author: { "@type": "Organization", name: "Wake N Bake Coffee Co." },
+          description: guide.metaDescription,
+          author: { "@type": "Organization", name: brand.name },
+          mainEntityOfPage: absoluteUrl(`/brew-guides/${guide.slug}`),
         }}
       />
       <p className="text-sm text-driftwood">
@@ -68,7 +78,7 @@ export default async function BrewGuidePage({ params }: { params: Params }) {
         ))}
       </div>
 
-      <aside className="mt-12 border border-seaglass/40 bg-seaglass/10 p-6">
+      <aside className="mt-12 rounded-2xl border border-seaglass/40 bg-seaglass/10 p-6">
         <h2 className="font-display text-2xl text-ocean">Tips</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-ocean/90">
           {guide.tips.map((tip) => (
@@ -76,6 +86,59 @@ export default async function BrewGuidePage({ params }: { params: Params }) {
           ))}
         </ul>
       </aside>
+
+      <section className="mt-12">
+        <h2 className="font-display text-2xl text-ocean">FAQ</h2>
+        <div className="mt-4 space-y-3">
+          {guide.faq.map((item) => (
+            <details
+              key={item.question}
+              className="rounded-xl border border-ocean/10 bg-foam/40 px-4 py-3"
+            >
+              <summary className="cursor-pointer font-medium text-ocean">
+                {item.question}
+              </summary>
+              <p className="mt-2 text-sm text-driftwood">{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12 rounded-2xl border border-ocean/10 bg-foam/60 p-6">
+        <p className="text-ocean">{guide.excerpt}</p>
+        <Link
+          href="/shop"
+          className="mt-4 inline-block rounded-full bg-ocean px-5 py-2.5 text-sm font-semibold text-cream no-underline"
+        >
+          Find Your Roast
+        </Link>
+      </section>
+
+      {(relatedGuides.length > 0 || relatedArticles.length > 0) ? (
+        <section className="mt-12">
+          <h2 className="font-display text-2xl text-ocean">Keep exploring</h2>
+          <ul className="mt-4 space-y-2 text-sm">
+            {relatedGuides.map((item) =>
+              item ? (
+                <li key={item.slug}>
+                  <Link href={`/brew-guides/${item.slug}`} className="text-ocean underline">
+                    {item.title}
+                  </Link>
+                </li>
+              ) : null,
+            )}
+            {relatedArticles.map((item) =>
+              item ? (
+                <li key={item.slug}>
+                  <Link href={`/journal/${item.slug}`} className="text-ocean underline">
+                    {item.title}
+                  </Link>
+                </li>
+              ) : null,
+            )}
+          </ul>
+        </section>
+      ) : null}
     </article>
   );
 }

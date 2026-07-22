@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       mode: result.mode,
-      message: "Thanks — we will get back to you soon.",
+      message: "Message received.",
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -54,6 +54,9 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    return NextResponse.json({ error: "Unable to submit form" }, { status: 500 });
+    return NextResponse.json(
+      { error: "That one did not make it." },
+      { status: 500 },
+    );
   }
 }

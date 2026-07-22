@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useTransition } from "react";
 import { trackEvent } from "@/lib/analytics/events";
+import { siteCopy } from "@/lib/content/site-copy";
 
 export function ShopFilters() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export function ShopFilters() {
 
   return (
     <form
-      className="grid gap-3 rounded-lg border border-ocean/10 bg-foam/70 p-4 md:grid-cols-2 lg:grid-cols-6"
+      className="grid gap-3 rounded-2xl border border-ocean/10 bg-foam/70 p-4 shadow-[0_10px_30px_rgba(11,31,51,0.04)] md:grid-cols-2 lg:grid-cols-6"
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
@@ -36,12 +37,12 @@ export function ShopFilters() {
       aria-busy={pending}
     >
       <label className="block text-sm lg:col-span-2">
-        <span className="mb-1 block text-driftwood">Search</span>
+        <span className="mb-1 block text-driftwood">{siteCopy.shop.searchLabel}</span>
         <input
           name="q"
           defaultValue={searchParams.get("q") ?? ""}
-          placeholder="Search coffee"
-          className="w-full rounded border border-ocean/20 bg-cream px-3 py-2"
+          placeholder={siteCopy.shop.searchPlaceholder}
+          className="w-full rounded-xl border border-ocean/20 bg-cream px-3 py-2"
         />
       </label>
       <label className="block text-sm">

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { brand } from "@/lib/content/brand";
 import { siteCopy } from "@/lib/content/site-copy";
 import { BrandMark } from "@/components/ui/BrandMark";
-import { TrustLogos } from "@/components/layout/TrustLogos";
 
 export function Footer() {
   return (
@@ -38,7 +37,6 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <TrustLogos />
       <div className="border-t border-cream/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-cream/60 sm:flex-row sm:items-center sm:justify-between">
           <p>

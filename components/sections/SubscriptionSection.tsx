@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Product } from "@/lib/shopify/types";
 import { siteCopy } from "@/lib/content/site-copy";
-import { WavingFlagBackground } from "@/components/sections/WavingFlagBackground";
+import { GreyFlagOverlay } from "@/components/sections/GreyFlagOverlay";
 
 export function SubscriptionSection({
   hasSellingPlans,
@@ -13,11 +13,11 @@ export function SubscriptionSection({
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-20">
-      <div className="relative isolate min-h-[22rem] overflow-hidden rounded-3xl border border-ocean/10 shadow-soft md:min-h-[24rem]">
-        <WavingFlagBackground />
+      <div className="relative isolate overflow-hidden rounded-3xl border border-ocean/10 bg-foam/80 shadow-soft texture-topo">
+        <GreyFlagOverlay />
 
-        <div className="relative z-10 flex h-full items-center p-5 md:p-8">
-          <div className="w-full max-w-2xl rounded-2xl border border-white/70 bg-foam/93 px-6 py-10 shadow-[0_16px_48px_rgba(11,31,51,0.14)] backdrop-blur-[3px] md:px-10 md:py-12">
+        <div className="relative z-10 p-6 md:p-12">
+          <div className="max-w-2xl rounded-2xl border border-cream/70 bg-foam/95 px-6 py-10 shadow-[0_12px_40px_rgba(11,31,51,0.08)] md:px-10 md:py-12">
             <p className="text-xs tracking-[0.22em] text-driftwood uppercase">
               {subscriptions.eyebrow}
             </p>

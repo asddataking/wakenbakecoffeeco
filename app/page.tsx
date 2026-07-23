@@ -5,8 +5,10 @@ import { ChooseYourCurrent } from "@/components/sections/ChooseYourCurrent";
 import { SubscriptionSection } from "@/components/sections/SubscriptionSection";
 import { DankNDevourBridge } from "@/components/sections/DankNDevourBridge";
 import { BrewGuidesPreview } from "@/components/sections/BrewGuidesPreview";
+import { JournalPreview } from "@/components/sections/JournalPreview";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
+import { TrustLogos } from "@/components/layout/TrustLogos";
 import { getCollectionByHandle, getProducts } from "@/lib/shopify/client";
 import { brand } from "@/lib/content/brand";
 import { seo } from "@/lib/content/seo";
@@ -94,6 +96,8 @@ export default async function HomePage() {
       <SubscriptionSection hasSellingPlans={hasSellingPlans} />
       <DankNDevourBridge />
       <BrewGuidesPreview />
+      <JournalPreview />
+      <TrustLogos />
       <ReviewsSection />
       <NewsletterSection />
     </>

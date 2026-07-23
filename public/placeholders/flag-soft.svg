@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <linearGradient id="wash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F7F3EA" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#F3EFE6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#EBE4D6" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="redSoft" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C97B4B" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#B85F45" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="blueSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A6D8C" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0B1F33" stop-opacity="0.38"/>
+    </linearGradient>
+    <filter id="softBlur" x="-5%" y="-5%" width="110%" height="110%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <pattern id="stars" width="48" height="40" patternUnits="userSpaceOnUse">
+      <path d="M12 8l1.4 4.2H18l-3.4 2.5 1.3 4.1L12 16.4l-3.9 2.4 1.3-4.1L6 12.2h4.6L12 8z" fill="#F3EFE6" opacity="0.55"/>
+      <path d="M36 28l1.1 3.2H41l-2.6 1.9 1 3.1-2.9-1.8-2.9 1.8 1-3.1-2.6-1.9h3.9L36 28z" fill="#F3EFE6" opacity="0.4"/>
+    </pattern>
+  </defs>
+
+  <!-- Soft fabric base -->
+  <rect width="1200" height="675" fill="#F6F1E7"/>
+
+  <!-- Stripes with slight wave for a fabric feel -->
+  <g filter="url(#softBlur)" opacity="0.9">
+    <path d="M0 0H1200V52C980 62 720 40 480 54C240 68 80 48 0 58V0Z" fill="url(#redSoft)"/>
+    <path d="M0 52H1200V104C1000 112 760 92 520 108C280 124 100 104 0 114V52Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 104H1200V156C960 168 700 140 460 158C220 176 70 154 0 164V104Z" fill="url(#redSoft)"/>
+    <path d="M0 156H1200V208C1020 216 780 196 540 212C300 228 90 206 0 216V156Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 208H1200V260C940 274 680 244 440 264C200 284 60 258 0 268V208Z" fill="url(#redSoft)"/>
+    <path d="M0 260H1200V312C1000 320 760 300 520 316C280 332 80 310 0 320V260Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 312H1200V364C960 378 700 348 460 368C220 388 70 360 0 370V312Z" fill="url(#redSoft)"/>
+    <path d="M0 364H1200V416C1020 424 780 404 540 420C300 436 90 414 0 424V364Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 416H1200V468C940 482 680 452 440 472C200 492 60 466 0 476V416Z" fill="url(#redSoft)"/>
+    <path d="M0 468H1200V520C1000 528 760 508 520 524C280 540 80 518 0 528V468Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 520H1200V572C960 586 700 556 460 576C220 596 70 568 0 578V520Z" fill="url(#redSoft)"/>
+    <path d="M0 572H1200V624C1020 632 780 612 540 628C300 644 90 622 0 632V572Z" fill="#F7F3EA" opacity="0.75"/>
+    <path d="M0 624H1200V675H0V624Z" fill="url(#redSoft)"/>
+  </g>
+
+  <!-- Canton -->
+  <path d="M0 0H460V364H0V0Z" fill="url(#blueSoft)"/>
+  <rect width="460" height="364" fill="url(#stars)"/>
+
+  <!-- Soft daylight wash so it stays light and natural -->
+  <rect width="1200" height="675" fill="url(#wash)"/>
+  <rect width="1200" height="675" fill="#F3EFE6" opacity="0.28"/>
+</svg>

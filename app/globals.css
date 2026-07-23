@@ -120,4 +120,32 @@
       transform: scale(1.04) translateY(-6px);
     }
   }
+
+  .flag-wave {
+    animation: flag-sway 9s ease-in-out infinite;
+    transform-origin: left center;
+    will-change: transform;
+  }
+
+  @keyframes flag-sway {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) skewX(0deg) scale(1.02);
+    }
+    25% {
+      transform: translate3d(-1.2%, 0.6%, 0) skewX(0.6deg) scale(1.035);
+    }
+    50% {
+      transform: translate3d(0.8%, -0.4%, 0) skewX(-0.5deg) scale(1.02);
+    }
+    75% {
+      transform: translate3d(-0.6%, 0.3%, 0) skewX(0.35deg) scale(1.03);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flag-wave {
+      animation: none;
+    }
+  }
 }

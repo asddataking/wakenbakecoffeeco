@@ -13,11 +13,11 @@ export function SubscriptionSection({
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-20">
-      <div className="relative isolate overflow-hidden rounded-3xl border border-ocean/10 bg-foam/80 shadow-soft texture-topo">
+      <div className="relative isolate min-h-[26rem] overflow-hidden rounded-3xl border border-ocean/10 bg-foam shadow-soft md:min-h-[28rem]">
         <GreyFlagOverlay />
 
-        <div className="relative z-10 p-6 md:p-12">
-          <div className="max-w-2xl rounded-2xl border border-cream/70 bg-foam/95 px-6 py-10 shadow-[0_12px_40px_rgba(11,31,51,0.08)] md:px-10 md:py-12">
+        <div className="relative z-10 flex min-h-[26rem] items-center p-6 md:min-h-[28rem] md:p-12">
+          <div className="w-full max-w-2xl rounded-2xl border border-cream/80 bg-foam/95 px-6 py-10 shadow-[0_12px_40px_rgba(11,31,51,0.1)] md:px-10 md:py-12">
             <p className="text-xs tracking-[0.22em] text-driftwood uppercase">
               {subscriptions.eyebrow}
             </p>
